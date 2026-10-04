@@ -236,27 +236,32 @@ function HomeScreen({ mode, minutes, name, sum, onAction, onFix }: { mode: HomeM
   const dateM = 9, dateD = x2 ? 16 : warn ? 14 : 15;
   const ot = x2 ? minutes : Math.max(0, minutes - 540);
   return (
-    <div className="px-5 pb-6">
-      <header className="flex items-center gap-3 pb-4 pt-3">
-        <div className="flex size-11 items-center justify-center rounded-full bg-primary-container text-on-primary-container"><User className="size-5" /></div>
-        <div className="flex-1">
-          <div className="text-[18px] font-semibold text-ink">مرحباً {name}</div>
-          <div className="text-[12.5px] text-faint">سجل حضورك وانصرافك بسهولة</div>
+    <div className="instrument-grid min-h-full px-5 pb-5">
+      <header className="flex items-center gap-3 pb-5 pt-4">
+        <div className="relative flex size-12 items-center justify-center rounded-2xl border border-primary/30 bg-primary-container text-on-primary-container shadow-card">
+          <User className="size-5" />
+          <span className="absolute -bottom-0.5 -end-0.5 size-3.5 rounded-full border-2 border-background bg-success" />
         </div>
+        <div className="flex-1">
+          <div className="text-[12px] font-medium text-faint">مساء الخير،</div>
+          <div className="mt-0.5 text-[19px] font-bold text-ink">{name}</div>
+        </div>
+        <div dir="ltr" className="rounded-lg border border-border bg-surface/70 px-2.5 py-1.5 font-display text-[10px] font-semibold text-faint">OFFLINE · 01</div>
       </header>
 
-      <section className={cn("rounded-[32px] border border-border px-5 pb-5 pt-4 shadow-hero transition-colors duration-500",
+      <section className={cn("relative overflow-hidden rounded-[28px] border border-border px-5 pb-5 pt-4 shadow-hero transition-colors duration-500",
         warn ? "bg-hero-warning" : x2 ? "bg-hero-x2" : "bg-hero")}>
+        <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-primary/70" />
         <div className="flex items-center justify-between">
-          <span className="text-[13.5px] font-medium text-muted-foreground">{dayLabel(dateM, dateD)}</span>
+          <span className="text-[13px] font-medium text-muted-foreground">{dayLabel(dateM, dateD)}</span>
           {x2 ? <DayTypeBadge type="x2" /> : warn ? (
             <span className="inline-flex h-6 items-center gap-1 rounded-full bg-warning-container px-2.5 text-[11.5px] font-semibold text-warning-ink"><AlertTriangle className="size-3" />يتطلب تصحيح</span>
           ) : mode === "done" ? (
             <span className="inline-flex h-6 items-center gap-1 rounded-full bg-success-container px-2.5 text-[11.5px] font-semibold text-success"><CircleCheck className="size-3" />اكتمل اليوم</span>
           ) : null}
         </div>
-        <div className="flex justify-center py-5">
-          <AttendanceRing minutes={minutes} x2={x2} warning={warn} active={active} />
+        <div className="flex justify-center py-4">
+          <AttendanceRing minutes={minutes} x2={x2} warning={warn} active={active} size={238} />
         </div>
         <div className="flex min-h-7 items-center justify-center gap-2 text-[13.5px]">
           {mode === "idle" && <span className="text-faint">لم يتم تسجيل الحضور اليوم</span>}
@@ -277,12 +282,12 @@ function HomeScreen({ mode, minutes, name, sum, onAction, onFix }: { mode: HomeM
             </div>
           </div>
         )}
-        <div className="mt-4">
+        <div className="mt-3">
           <AttendancePrimaryButton state={mode === "idle" ? "in" : mode === "done" ? "done" : "out"} onClick={onAction} />
         </div>
       </section>
 
-      <div className="mt-5 flex gap-3">
+      <div className="mt-4 flex gap-3">
         <MonthKpiCard kind="days" value={ar(sum.workDays + (mode === "done" ? 1 : 0))} />
         <MonthKpiCard kind="ot" value={durShort(sum.ot + (mode === "done" ? ot : 0))} />
       </div>
