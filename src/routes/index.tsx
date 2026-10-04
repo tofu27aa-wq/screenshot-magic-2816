@@ -54,8 +54,8 @@ function Index() {
       </div>
 
       {/* Desktop: device frame + state index */}
-      <div className="mx-auto hidden max-w-[980px] items-start justify-center gap-12 px-6 py-10 sm:flex">
-        <div className="shrink-0 rounded-[54px] bg-device p-[10px] shadow-device">
+      <div className="mx-auto hidden min-h-screen max-w-[1080px] items-start justify-center gap-16 px-8 py-10 sm:flex">
+        <div className="shrink-0 rounded-[54px] border border-border/60 bg-device p-[10px] shadow-device">
           <div className="relative flex h-[844px] w-[390px] flex-col overflow-hidden rounded-[44px] bg-background">
             <div dir="ltr" className="flex h-9 shrink-0 items-center justify-between bg-background px-7 text-[13px] font-semibold text-ink">
               <span>١٢:٣٠</span>
@@ -69,17 +69,19 @@ function Index() {
           </div>
         </div>
 
-        <aside className="sticky top-10 w-[300px]">
-          <div className="text-[13px] font-semibold text-primary">نموذج تصميم · Android</div>
-          <h1 className="mt-1 text-[26px] font-bold leading-tight text-ink">دفتر الحضور</h1>
-          <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">اختر أي حالة لعرضها داخل الهاتف، أو استخدم التطبيق مباشرة.</p>
-          <ol className="mt-5 max-h-[640px] space-y-1 overflow-y-auto no-scrollbar">
+        <aside className="sticky top-10 w-[320px] pt-3">
+          <div className="mb-6 flex items-center gap-3">
+            <span className="flex size-10 items-center justify-center rounded-[12px] border border-primary/30 bg-primary-container font-display text-sm font-bold text-primary">د</span>
+            <div><div className="font-display text-[11px] font-semibold text-primary">DAFTAR / 2026</div><h1 className="text-[25px] font-bold leading-tight text-ink">دفتر الحضور</h1></div>
+          </div>
+          <div className="border-y border-border py-3 text-[12px] font-medium text-faint">حالات النظام · {STATES.length.toLocaleString("ar-EG")}</div>
+          <ol className="mt-3 max-h-[680px] space-y-1 overflow-y-auto no-scrollbar">
             {STATES.map((x, i) => (
               <li key={x.n}>
                 <button onClick={() => { setCur(i); setRaw((p) => ({ ...p, overlay: null, ...x.s })); }}
-                  className={cn("flex w-full items-center gap-3 rounded-xl px-3 py-2 text-start text-[14px] transition-colors",
-                    cur === i ? "bg-surface font-semibold text-ink shadow-card" : "text-muted-foreground hover:bg-surface/60")}>
-                  <span className={cn("tabular flex size-6 items-center justify-center rounded-full text-[11.5px]",
+                  className={cn("flex w-full items-center gap-3 rounded-[10px] border px-3 py-2 text-start text-[13.5px] transition-colors",
+                    cur === i ? "border-primary/30 bg-primary-container font-semibold text-primary shadow-card" : "border-transparent text-muted-foreground hover:bg-surface/60")}> 
+                  <span className={cn("tabular flex size-6 items-center justify-center rounded-[7px] font-display text-[10px]",
                     cur === i ? "bg-primary text-primary-foreground" : "bg-surface-variant text-faint")}>{(i + 1).toLocaleString("ar-EG")}</span>
                   {x.n}
                 </button>

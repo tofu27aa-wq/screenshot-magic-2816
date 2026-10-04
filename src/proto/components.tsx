@@ -93,11 +93,11 @@ export function AttendanceRing({
           </g>
         )}
       </svg>
-      <div className="absolute inset-[40px] flex flex-col items-center justify-center rounded-full bg-surface shadow-card">
+      <div className="absolute inset-[36px] flex flex-col items-center justify-center rounded-full border border-border bg-background shadow-card">
         <div className="mb-1 h-2.5">
           {active && <span className="pulse-dot block size-2 rounded-full bg-success" aria-label="الحضور نشط" />}
         </div>
-        <div dir="ltr" className={cn("tabular text-[52px] font-semibold leading-none tracking-tight",
+        <div dir="ltr" className={cn("tabular font-display text-[48px] font-semibold leading-none",
           warning ? "text-warning-ink" : "text-ink")}>
           {dur(m)}
         </div>
@@ -114,14 +114,14 @@ export function AttendanceRing({
 export function AttendancePrimaryButton({ state, onClick }: { state: "in" | "out" | "done"; onClick: () => void }) {
   if (state === "done")
     return (
-      <button onClick={onClick} className="press flex h-14 w-full items-center justify-center gap-2 rounded-[18px] border border-border bg-surface text-[16px] font-semibold text-ink">
+      <button onClick={onClick} className="press flex h-14 w-full items-center justify-center gap-2 rounded-[14px] border border-border bg-surface text-[16px] font-semibold text-ink">
         <CircleCheck className="size-5 text-success" /> عرض تفاصيل اليوم
       </button>
     );
   const out = state === "out";
   return (
     <button onClick={onClick}
-      className={cn("press flex h-[58px] w-full items-center justify-center gap-2.5 rounded-[20px] text-[17px] font-semibold",
+      className={cn("press flex h-[58px] w-full items-center justify-center gap-2.5 rounded-[14px] text-[17px] font-semibold",
         out ? "bg-ink text-primary-foreground shadow-card" : "bg-primary text-primary-foreground shadow-button")}>
       {out ? <LogOut className="size-5 -scale-x-100" /> : <LogIn className="size-5 -scale-x-100" />}
       {out ? "تسجيل الانصراف" : "تسجيل الحضور"}
@@ -133,12 +133,12 @@ export function AttendancePrimaryButton({ state, onClick }: { state: "in" | "out
 export function MonthKpiCard({ kind, value }: { kind: "days" | "ot"; value: string }) {
   const ot = kind === "ot";
   return (
-    <div className="flex flex-1 flex-col rounded-[22px] border border-border bg-surface p-4 shadow-card">
-      <div className={cn("flex size-9 items-center justify-center rounded-xl",
+    <div className="flex flex-1 flex-col rounded-[16px] border border-border bg-surface/80 p-4 shadow-card backdrop-blur">
+      <div className={cn("flex size-9 items-center justify-center rounded-[10px]",
         ot ? "bg-overtime-container text-overtime-ink" : "bg-primary-container text-on-primary-container")}>
         {ot ? <Timer className="size-[18px]" /> : <CalendarCheck2 className="size-[18px]" />}
       </div>
-      <div dir="ltr" className={cn("tabular mt-4 text-end text-[30px] font-semibold leading-none", ot ? "text-overtime-ink" : "text-ink")}>
+      <div dir="ltr" className={cn("tabular font-display mt-4 text-end text-[28px] font-semibold leading-none", ot ? "text-overtime-ink" : "text-ink")}> 
         {value}
       </div>
       <div className="mt-2 text-[13px] font-medium leading-snug text-muted-foreground">
@@ -403,13 +403,13 @@ export function BottomNavigation({ tab, onChange }: { tab: Tab; onChange: (t: Ta
     { k: "more", t: "المزيد", i: LayoutGrid },
   ];
   return (
-    <nav className="flex h-[76px] shrink-0 items-start justify-around border-t border-border bg-surface/95 px-4 pt-2.5 backdrop-blur">
+    <nav className="mx-5 mb-3 flex h-[68px] shrink-0 items-start justify-around rounded-[18px] border border-border bg-surface/90 px-4 pt-2 backdrop-blur-xl shadow-card">
       {items.map(({ k, t, i: Icon }) => {
         const on = tab === k;
         return (
           <button key={k} onClick={() => onChange(k)} className="flex w-20 flex-col items-center gap-1" aria-current={on}>
-            <span className={cn("flex h-8 w-16 items-center justify-center rounded-full transition-all duration-300",
-              on ? "bg-primary-container text-on-primary-container" : "text-faint")}>
+            <span className={cn("flex h-8 w-16 items-center justify-center rounded-[10px] transition-all duration-300",
+              on ? "bg-primary-container text-primary" : "text-faint")}> 
               <Icon className="size-[21px]" strokeWidth={on ? 2.2 : 1.8} />
             </span>
             <span className={cn("text-[12px]", on ? "font-semibold text-ink" : "font-medium text-faint")}>{t}</span>
