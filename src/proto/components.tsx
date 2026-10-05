@@ -310,6 +310,7 @@ export function validateNum(v: string, required: boolean) {
   if (!v) return required ? "This field is required" : undefined;
   if (v.startsWith("0")) return "Cannot start with zero";
   if (v.length > 4) return "Use 1 to 4 digits";
+  return undefined;
 }
 
 /* ---------- TimeField ---------- */
