@@ -80,7 +80,7 @@ export function AttendanceRing({
 
   return (
     <div className="relative" style={{ width: size, height: size }} role="img"
-      aria-label={`مدة العمل ${dur(minutes)}`}>
+      aria-label={`Work duration ${dur(minutes)}`}>
       <svg width={size} height={size} className="absolute inset-0">
         <circle cx={c} cy={c} r={r} fill="none" strokeWidth={stroke} style={{ stroke: "var(--ring-track)" }} />
         {!x2 && !warning && <circle cx={mx} cy={my} r={2.5} style={{ fill: "var(--ring-marker)" }} />}
@@ -95,15 +95,15 @@ export function AttendanceRing({
       </svg>
       <div className="absolute inset-[36px] flex flex-col items-center justify-center rounded-full border border-border bg-background shadow-card">
         <div className="mb-1 h-2.5">
-          {active && <span className="pulse-dot block size-2 rounded-full bg-success" aria-label="الحضور نشط" />}
+          {active && <span className="pulse-dot block size-2 rounded-full bg-success" aria-label="Attendance active" />}
         </div>
         <div dir="ltr" className={cn("tabular font-display text-[48px] font-semibold leading-none",
           warning ? "text-warning-ink" : "text-ink")}>
           {dur(m)}
         </div>
         <div dir="ltr" className="mt-2 flex w-[128px] justify-between px-2 text-[12px] font-medium text-faint">
-          <span>ساعات</span>
-          <span>دقائق</span>
+          <span>Hours</span>
+          <span>Minutes</span>
         </div>
       </div>
     </div>
@@ -115,7 +115,7 @@ export function AttendancePrimaryButton({ state, onClick }: { state: "in" | "out
   if (state === "done")
     return (
       <button onClick={onClick} className="press flex h-14 w-full items-center justify-center gap-2 rounded-[14px] border border-border bg-surface text-[16px] font-semibold text-ink">
-        <CircleCheck className="size-5 text-success" /> عرض تفاصيل اليوم
+        <CircleCheck className="size-5 text-success" /> View day details
       </button>
     );
   const out = state === "out";
@@ -124,7 +124,7 @@ export function AttendancePrimaryButton({ state, onClick }: { state: "in" | "out
       className={cn("press flex h-[58px] w-full items-center justify-center gap-2.5 rounded-[14px] text-[17px] font-semibold",
         out ? "bg-ink text-primary-foreground shadow-card" : "bg-primary text-primary-foreground shadow-button")}>
       {out ? <LogOut className="size-5 -scale-x-100" /> : <LogIn className="size-5 -scale-x-100" />}
-      {out ? "تسجيل الانصراف" : "تسجيل الحضور"}
+      {out ? "Check out" : "Check in"}
     </button>
   );
 }
@@ -133,7 +133,7 @@ export function AttendancePrimaryButton({ state, onClick }: { state: "in" | "out
 export function MonthKpiCard({ kind, value }: { kind: "days" | "ot"; value: string }) {
   const ot = kind === "ot";
   return (
-    <div className="flex flex-1 flex-col rounded-[16px] border border-border bg-surface/80 p-4 shadow-card backdrop-blur">
+    <div className="flex flex-1 flex-col rounded-[18px] border border-border bg-surface/70 p-4 shadow-card backdrop-blur-xl">
       <div className={cn("flex size-9 items-center justify-center rounded-[10px]",
         ot ? "bg-overtime-container text-overtime-ink" : "bg-primary-container text-on-primary-container")}>
         {ot ? <Timer className="size-[18px]" /> : <CalendarCheck2 className="size-[18px]" />}
@@ -142,7 +142,7 @@ export function MonthKpiCard({ kind, value }: { kind: "days" | "ot"; value: stri
         {value}
       </div>
       <div className="mt-2 text-[13px] font-medium leading-snug text-muted-foreground">
-        {ot ? "إجمالي ساعات الأوفر تايم" : "أيام العمل هذا الشهر"}
+        {ot ? "Total overtime" : "Workdays this month"}
       </div>
     </div>
   );
@@ -151,7 +151,7 @@ export function MonthKpiCard({ kind, value }: { kind: "days" | "ot"; value: stri
 /* ---------- MonthlyArchiveCard ---------- */
 export function MonthlyArchiveCard({ m, workDays, ot, current, onClick }: { m: number; workDays: number; ot: number; current?: boolean; onClick: () => void }) {
   return (
-    <button onClick={onClick} className={cn("press w-full rounded-[24px] border bg-surface p-4 text-start shadow-card",
+    <button onClick={onClick} className={cn("press w-full rounded-[20px] border bg-surface/80 p-4 backdrop-blur-xl text-start shadow-card",
       current ? "border-primary/25" : "border-border")}>
       <div className="flex items-center gap-3">
         <div className={cn("flex size-12 flex-col items-center justify-center rounded-2xl",
@@ -161,14 +161,14 @@ export function MonthlyArchiveCard({ m, workDays, ot, current, onClick }: { m: n
         </div>
         <div className="flex-1">
           <div className="text-[17px] font-semibold text-ink">{monthLabel(m)}</div>
-          <div className="text-[12.5px] text-faint">{current ? "الشهر الحالي" : "مؤرشف · قابل للتعديل"}</div>
+          <div className="text-[12.5px] text-faint">{current ? "Current month" : "Archived · Editable"}</div>
         </div>
         <ChevronLeft className="size-5 text-faint" />
       </div>
       <div className="mt-4 flex rounded-2xl bg-surface-variant/70 px-1 py-3">
-        <Stat label="أيام العمل" value={ar(workDays)} />
+        <Stat label="Workdays" value={ar(workDays)} />
         <div className="w-px bg-border" />
-        <Stat label="إجمالي الأوفر تايم" value={durShort(ot)} accent />
+        <Stat label="Total overtime" value={durShort(ot)} accent />
       </div>
     </button>
   );
@@ -185,12 +185,12 @@ function Stat({ label, value, accent }: { label: string; value: string; accent?:
 /* ---------- DayTypeBadge ---------- */
 export function DayTypeBadge({ type }: { type: "work" | "holiday" | "x2" | "weekend" | "today" | "future" }) {
   const map = {
-    work: { t: "يوم عمل", c: "bg-surface-variant text-muted-foreground", i: null },
-    holiday: { t: "إجازة رسمية", c: "bg-overtime-container text-overtime-ink", i: <Flag className="size-3" /> },
-    weekend: { t: "عطلة أسبوعية", c: "bg-overtime-container text-overtime-ink", i: <MoonStar className="size-3" /> },
+    work: { t: "Workday", c: "bg-surface-variant text-muted-foreground", i: null },
+    holiday: { t: "Public holiday", c: "bg-overtime-container text-overtime-ink", i: <Flag className="size-3" /> },
+    weekend: { t: "Weekend", c: "bg-overtime-container text-overtime-ink", i: <MoonStar className="size-3" /> },
     x2: { t: "×٢", c: "bg-overtime text-primary-foreground", i: null },
-    today: { t: "اليوم", c: "bg-primary-container text-on-primary-container", i: null },
-    future: { t: "يوم قادم", c: "bg-surface-variant text-faint", i: null },
+    today: { t: "Today", c: "bg-primary-container text-on-primary-container", i: null },
+    future: { t: "Future day", c: "bg-surface-variant text-faint", i: null },
   }[type];
   return (
     <span className={cn("inline-flex h-6 items-center gap-1 rounded-full px-2.5 text-[11.5px] font-semibold", map.c)}>
@@ -208,7 +208,7 @@ export function DailyRecordCard({ day, note, onClick }: { day: DayRec; note: { t
     <div className={cn("flex w-12 shrink-0 flex-col items-center justify-center rounded-2xl py-2",
       day.today ? "bg-primary text-primary-foreground" : tinted ? "bg-overtime-container text-overtime-ink" : "bg-surface-variant text-ink")}>
       <span className="tabular text-[19px] font-semibold leading-none">{ar(day.d)}</span>
-      <span className="mt-1 text-[10.5px] font-medium opacity-80">{WEEKDAYS[day.weekday].replace("ال", "")}</span>
+      <span className="mt-1 text-[10.5px] font-medium opacity-80">{WEEKDAYS[day.weekday].slice(0, 3)}</span>
     </div>
   );
   const badges = (
@@ -229,7 +229,7 @@ export function DailyRecordCard({ day, note, onClick }: { day: DayRec; note: { t
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-2">
             <span className="text-[14px] font-medium text-muted-foreground">
-              {day.kind === "holiday" ? day.holidayName : day.future ? dayLabel(day.m, day.d) : "لا يوجد حضور"}
+              {day.kind === "holiday" ? day.holidayName : day.future ? dayLabel(day.m, day.d) : "No attendance"}
             </span>
           </div>
           <div className="mt-1.5">{badges}</div>
@@ -240,7 +240,7 @@ export function DailyRecordCard({ day, note, onClick }: { day: DayRec; note: { t
   }
   const open = day.outMin == null;
   return (
-    <button onClick={onClick} className={cn("press w-full rounded-[22px] border bg-surface p-3.5 text-start shadow-card",
+    <button onClick={onClick} className={cn("press w-full rounded-[18px] border bg-surface/80 p-3.5 backdrop-blur-xl text-start shadow-card",
       day.today ? "border-primary/30" : "border-border")}>
       <div className="flex gap-3">
         {dateTile}
@@ -253,10 +253,10 @@ export function DailyRecordCard({ day, note, onClick }: { day: DayRec; note: { t
         </div>
       </div>
       <div className="mt-3 grid grid-cols-4 gap-1 rounded-2xl bg-surface-variant/60 px-2 py-2.5">
-        <Metric label="الحضور" value={clock(day.inMin!)} />
-        <Metric label="الانصراف" value={open ? "—" : clock(day.outMin!)} sub={!open && day.outMin! >= 1440 ? `${ar(day.d + 1)} ${MONTHS[day.m]}` : undefined} />
-        <Metric label="ساعات العمل" value={open ? "جارٍ" : durShort(workMin(day))} />
-        <Metric label="الأوفر تايم" value={open ? "—" : otMin(day) ? durShort(otMin(day)) : "—"} accent={!open && otMin(day) > 0} />
+        <Metric label="Check in" value={day.inMin == null ? "—" : clock(day.inMin)} />
+        <Metric label="Check out" value={open ? "—" : day.outMin == null ? "—" : clock(day.outMin)} sub={!open && day.outMin != null && day.outMin >= 1440 ? `${ar(day.d + 1)} ${MONTHS[day.m]}` : undefined} />
+        <Metric label="Shift time" value={open ? "Active" : durShort(workMin(day))} />
+        <Metric label="Overtime" value={open ? "—" : otMin(day) ? durShort(otMin(day)) : "—"} accent={!open && otMin(day) > 0} />
       </div>
       {note && <NoteLine note={note} />}
     </button>
@@ -271,7 +271,7 @@ function Metric({ label, value, accent, sub }: { label: string; value: string; a
     </div>
   );
 }
-export const SCOPE_LABEL: Record<NoteScope, string> = { day: "هذا اليوم فقط", month: "لبقية الشهر", range: "فترة محددة" };
+export const SCOPE_LABEL: Record<NoteScope, string> = { day: "هذا Today فقط", month: "Rest of month", range: "Date range" };
 function NoteLine({ note }: { note: { text: string; scope: NoteScope } }) {
   return (
     <div className="mt-2.5 flex items-center gap-2 text-[12.5px] text-muted-foreground">
@@ -290,7 +290,7 @@ export function EmployeeField({ label, value, onChange, numeric, optional, error
     <label className="block">
       <div className="mb-1.5 flex items-center justify-between px-1">
         <span className="text-[13.5px] font-medium text-ink">{label}</span>
-        {optional && <span className="text-[12px] text-faint">اختياري</span>}
+        {optional && <span className="text-[12px] text-faint">Optional</span>}
       </div>
       <div className={cn("flex h-14 items-center gap-3 rounded-[16px] border bg-surface px-4 transition-colors focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10",
         error ? "border-destructive" : "border-input")}>
@@ -307,9 +307,9 @@ export function EmployeeField({ label, value, onChange, numeric, optional, error
   );
 }
 export function validateNum(v: string, required: boolean) {
-  if (!v) return required ? "هذا الحقل مطلوب" : undefined;
-  if (v.startsWith("0")) return "لا يمكن أن يبدأ الرقم بصفر";
-  if (v.length > 4) return "من ١ إلى ٤ أرقام";
+  if (!v) return required ? "This field is required" : undefined;
+  if (v.startsWith("0")) return "Cannot start with zero";
+  if (v.length > 4) return "Use 1 to 4 digits";
 }
 
 /* ---------- TimeField ---------- */
@@ -327,9 +327,9 @@ export function TimeField({ label, value, sub, disabled, onClick }: { label: str
 /* ---------- NoteScopeSelector ---------- */
 export function NoteScopeSelector({ value, onChange }: { value: NoteScope; onChange: (s: NoteScope) => void }) {
   const items: { k: NoteScope; hint: string }[] = [
-    { k: "day", hint: "تتقدم على أي ملاحظة عامة" },
-    { k: "month", hint: "من هذا اليوم حتى آخر الشهر" },
-    { k: "range", hint: "اختر تاريخ البداية والنهاية" },
+    { k: "day", hint: "Overrides any general note" },
+    { k: "month", hint: "من هذا Today حتى آخر الشهر" },
+    { k: "range", hint: "Choose start and end dates" },
   ];
   return (
     <div className="space-y-2" role="radiogroup">
@@ -365,8 +365,8 @@ export function HolidayCard({ name, m, d, days, onEdit }: { name: string; m: num
         <div className="truncate text-[15px] font-semibold text-ink">{name}</div>
         <div className="mt-1 flex items-center gap-1.5 text-[12px] text-muted-foreground">
           <span>{WEEKDAYS[new Date(2026, m, d).getDay()]}</span>
-          {days > 1 && <span>· {ar(days)} أيام</span>}
-          <span>· تُحتسب ×٢</span>
+          {days > 1 && <span>· {ar(days)} days</span>}
+          <span>· Counted as double time</span>
         </div>
       </div>
       <ChevronLeft className="size-4 text-faint" />
@@ -398,12 +398,12 @@ export function ExportAction({ icon, label, sub, onClick, selected, compact }: {
 export type Tab = "home" | "records" | "more";
 export function BottomNavigation({ tab, onChange }: { tab: Tab; onChange: (t: Tab) => void }) {
   const items: { k: Tab; t: string; i: typeof Home }[] = [
-    { k: "home", t: "الرئيسية", i: Home },
-    { k: "records", t: "السجلات", i: CalendarDays },
-    { k: "more", t: "المزيد", i: LayoutGrid },
+    { k: "home", t: "Home", i: Home },
+    { k: "records", t: "Records", i: CalendarDays },
+    { k: "more", t: "More", i: LayoutGrid },
   ];
   return (
-    <nav className="mx-5 mb-3 flex h-[68px] shrink-0 items-start justify-around rounded-[18px] border border-border bg-surface/90 px-4 pt-2 backdrop-blur-xl shadow-card">
+    <nav className="mx-5 mb-3 flex h-[68px] shrink-0 items-start justify-around rounded-[20px] border border-border bg-surface/75 px-4 pt-2 backdrop-blur-xl shadow-card">
       {items.map(({ k, t, i: Icon }) => {
         const on = tab === k;
         return (
@@ -472,27 +472,27 @@ export function MonthEndDialog({ m, workDays, ot, openSession, onExcel, onPdf, o
           <div className="mx-auto flex size-14 items-center justify-center rounded-[18px] bg-primary text-primary-foreground shadow-button">
             <Sparkles className="size-6" />
           </div>
-          <h3 className="mt-4 text-[20px] font-semibold text-ink">انتهى شهر {monthLabel(m)}</h3>
+          <h3 className="mt-4 text-[20px] font-semibold text-ink">Completed {monthLabel(m)}</h3>
           <div className="mt-4 flex rounded-2xl border border-border bg-surface py-3">
-            <Stat label="أيام العمل" value={ar(workDays)} />
+            <Stat label="Workdays" value={ar(workDays)} />
             <div className="w-px bg-border" />
-            <Stat label="إجمالي الأوفر تايم" value={durShort(ot)} accent />
+            <Stat label="Total overtime" value={durShort(ot)} accent />
           </div>
         </div>
         <div className="px-6 pb-5 pt-4">
           {openSession && (
             <div className="mb-4 flex gap-2.5 rounded-2xl bg-warning-container p-3 text-[13px] leading-relaxed text-warning-ink">
               <AlertTriangle className="mt-0.5 size-4 shrink-0" />
-              <span>لا يزال حضور يوم ٣٠ سبتمبر مفتوحاً. يمكنك متابعته وتسجيل الانصراف لاحقاً.</span>
+              <span>لا يزال حضور يوم ٣٠ سبDoneبر مفتوحاً. يمكنك متابعته وCheck out Later.</span>
             </div>
           )}
           <div className="grid grid-cols-2 gap-2">
-            <button onClick={onExcel} className="press h-12 rounded-[16px] bg-primary text-[15px] font-semibold text-primary-foreground shadow-button">حفظ Excel</button>
-            <button onClick={onPdf} className="press h-12 rounded-[16px] bg-primary-container text-[15px] font-semibold text-on-primary-container">حفظ PDF</button>
+            <button onClick={onExcel} className="press h-12 rounded-[16px] bg-primary text-[15px] font-semibold text-primary-foreground shadow-button">Save Excel</button>
+            <button onClick={onPdf} className="press h-12 rounded-[16px] bg-primary-container text-[15px] font-semibold text-on-primary-container">Save PDF</button>
           </div>
           <div className="mt-2 grid grid-cols-2 gap-2">
-            <button onClick={onShare} className="press h-11 rounded-[14px] text-[14.5px] font-semibold text-ink">مشاركة</button>
-            <button onClick={onLater} className="press h-11 rounded-[14px] text-[14.5px] font-medium text-faint">لاحقاً</button>
+            <button onClick={onShare} className="press h-11 rounded-[14px] text-[14.5px] font-semibold text-ink">Share</button>
+            <button onClick={onLater} className="press h-11 rounded-[14px] text-[14.5px] font-medium text-faint">Later</button>
           </div>
         </div>
       </div>
@@ -508,7 +508,7 @@ export function UndoSnackbar({ text, onUndo, onClose }: { text: string; onUndo: 
   return (
     <div className="absolute inset-x-4 bottom-[92px] z-30 flex h-12 items-center justify-between rounded-[14px] bg-inverse pe-2 ps-4 text-inverse-foreground shadow-sheet animate-in slide-in-from-bottom-4 fade-in duration-300">
       <span className="flex items-center gap-2 text-[14px]"><CircleCheck className="size-4 text-success" />{text}</span>
-      <button onClick={onUndo} className="h-9 rounded-lg px-3 text-[14px] font-semibold text-primary-container">تراجع</button>
+      <button onClick={onUndo} className="h-9 rounded-lg px-3 text-[14px] font-semibold text-primary-container">Undo</button>
     </div>
   );
 }
@@ -518,7 +518,7 @@ export function AppBar({ title, onBack, action }: { title: string; onBack?: () =
   return (
     <div className="flex h-14 shrink-0 items-center gap-1 px-2">
       {onBack && (
-        <button onClick={onBack} className="flex size-12 items-center justify-center rounded-full text-ink hover:bg-surface-variant" aria-label="رجوع">
+        <button onClick={onBack} className="flex size-12 items-center justify-center rounded-full text-ink hover:bg-surface-variant" aria-label="Back">
           <ArrowRight className="size-[22px]" />
         </button>
       )}
@@ -543,7 +543,7 @@ export function TimePickerSheet({ title, value, onClose, onSave }: { title: stri
     <Sheet onClose={onClose}>
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-[16px] font-semibold text-muted-foreground">{title}</h3>
-        <button onClick={() => setMode(mode === "dial" ? "input" : "dial")} className="flex size-10 items-center justify-center rounded-full bg-surface-variant text-ink" aria-label="تبديل طريقة الإدخال">
+        <button onClick={() => setMode(mode === "dial" ? "input" : "dial")} className="flex size-10 items-center justify-center rounded-full bg-surface-variant text-ink" aria-label="Switch input method">
           {mode === "dial" ? <Keyboard className="size-5" /> : <Clock3 className="size-5" />}
         </button>
       </div>
@@ -564,7 +564,7 @@ export function TimePickerSheet({ title, value, onClose, onSave }: { title: stri
           </>
         )}
         <div className="flex flex-col overflow-hidden rounded-xl border border-outline">
-          {(["ص", "م"] as const).map((s, i) => {
+          {(["AM", "PM"] as const).map((s, i) => {
             const on = (i === 1) === pm;
             return (
               <button key={s} onClick={() => setH(i === 1 ? (h24 % 12) + 12 : h24 % 12)}
@@ -592,13 +592,13 @@ export function TimePickerSheet({ title, value, onClose, onSave }: { title: stri
         </div>
       )}
       <div className="mt-6 flex justify-end gap-2">
-        <button onClick={onClose} className="h-11 rounded-full px-5 text-[15px] font-semibold text-on-primary-container">إلغاء</button>
-        <button onClick={() => onSave(h24 * 60 + mi)} className="h-11 rounded-full bg-primary px-6 text-[15px] font-semibold text-primary-foreground">تم</button>
+        <button onClick={onClose} className="h-11 rounded-full px-5 text-[15px] font-semibold text-on-primary-container">Cancel</button>
+        <button onClick={() => onSave(h24 * 60 + mi)} className="h-11 rounded-full bg-primary px-6 text-[15px] font-semibold text-primary-foreground">Done</button>
       </div>
     </Sheet>
   );
 }
 
 export function CloseBtn({ onClick }: { onClick: () => void }) {
-  return <button onClick={onClick} className="flex size-10 items-center justify-center rounded-full bg-surface-variant" aria-label="إغلاق"><X className="size-5" /></button>;
+  return <button onClick={onClick} className="flex size-10 items-center justify-center rounded-full bg-surface-variant" aria-label="Close"><X className="size-5" /></button>;
 }
