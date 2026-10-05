@@ -448,7 +448,7 @@ function DayScreen({ rec, ranges, overlay, setOverlay, onBack, onSave, onDelete 
       )}
       {overlay?.t === "delete" && (
         <WarningDialog tone="danger" icon={<Trash2 className="size-6" />} title="Delete day record؟"
-          body={<>This will delete the record for <b className="font-semibold text-ink">{dayLabel(rec.m, rec.d)} {ar(2026)}</b>: In {rec.inMin != null ? clock(rec.inMin) : ""}{rec.outMin != null ? ` وOut ${clock(rec.outMin)}` : ""}, including its day note if present.</>}
+          body={<>This will delete the record for <b className="font-semibold text-ink">{dayLabel(rec.m, rec.d)} {ar(2026)}</b>: in {rec.inMin != null ? clock(rec.inMin) : ""}{rec.outMin != null ? ` and out ${clock(rec.outMin)}` : ""}, including its day note if present.</>}
           primary="Delete record" secondary="Cancel" onClose={() => setOverlay(null)} onSecondary={() => setOverlay(null)} onPrimary={onDelete} />
       )}
     </div>
