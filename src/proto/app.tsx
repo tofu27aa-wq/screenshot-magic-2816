@@ -131,7 +131,7 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
           <div className="mb-4 flex size-12 items-center justify-center rounded-2xl bg-warning-container text-warning-ink"><AlertTriangle className="size-6" /></div>
           <h3 className="text-[20px] font-semibold text-ink">You have an open shift</h3>
           <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">
-            Checked in يوم <b className="font-semibold text-ink">{dayLabel(9, 14)}</b> at <b className="font-semibold text-ink">{clock(443)}</b> ولم يChecked out
+            Checked in on <b className="font-semibold text-ink">{dayLabel(9, 14)}</b> at <b className="font-semibold text-ink">{clock(443)}</b>.
           </p>
           <div className="mt-6 space-y-2">
             <button onClick={() => { go({ mode: "done" }); setSnack({ text: "Checked out", undo: () => {} }); }} className="press h-14 w-full rounded-[18px] bg-ink text-[16px] font-semibold text-primary-foreground">Check out now</button>
@@ -141,15 +141,15 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
       )}
       {overlay?.t === "over24" && (
         <WarningDialog tone="warning" title="Shift exceeds 24 hours"
-          body={<>Checked in يوم {dayLabel(9, 14)} at {clock(443)}. The maximum shift is 24 hours. Please correct the checkout time manually.</>}
+          body={<>Checked in on {dayLabel(9, 14)} at {clock(443)}. The maximum shift is 24 hours. Please correct the checkout time manually.</>}
           primary="Correct checkout time" secondary="Later" onClose={closeOverlay} onSecondary={closeOverlay}
           onPrimary={() => go({ screen: "day", month: 9, day: 14 })} />
       )}
       {overlay?.t === "monthEnd" && (
         <MonthEndDialog m={8} workDays={sep.workDays} ot={sep.ot} openSession={overlay.openSession}
-          onExcel={() => setState({ overlay: { t: "share", file: "Report_سبDoneبر_2026.xlsx" } })}
-          onPdf={() => setState({ overlay: { t: "share", file: "Report_سبDoneبر_2026.pdf" } })}
-          onShare={() => setState({ overlay: { t: "share", file: "Report_سبDoneبر_2026.pdf" } })}
+          onExcel={() => setState({ overlay: { t: "share", file: "September_2026.xlsx" } })}
+          onPdf={() => setState({ overlay: { t: "share", file: "September_2026.pdf" } })}
+          onShare={() => setState({ overlay: { t: "share", file: "September_2026.pdf" } })}
           onLater={closeOverlay} />
       )}
       {overlay?.t === "share" && <ShareSheet file={overlay.file} onClose={closeOverlay} />}
@@ -169,7 +169,7 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
       {overlay?.t === "restore" && (
         <Sheet onClose={closeOverlay} title="Choose a backup file">
           <div className="space-y-2">
-            {[["daftar_backup_2026-10-12.bak", "October 12, 2026 · 8:05 PM"], ["daftar_backup_2026-09-30.bak", "٣٠ سبDoneبر ٢٠٢٦ · ٦:٤٠ م"]].map(([f, d]) => (
+            {[["daftar_backup_2026-10-12.bak", "October 12, 2026 · 8:05 PM"], ["daftar_backup_2026-09-30.bak", "September 30, 2026 · 6:40 PM"]].map(([f, d]) => (
               <button key={f} onClick={() => setState({ overlay: { t: "restoreConfirm" } })} className="press flex w-full items-center gap-3 rounded-[18px] border border-border bg-surface p-3 text-start">
                 <span className="flex size-11 items-center justify-center rounded-xl bg-primary-container text-on-primary-container"><DatabaseBackup className="size-5" /></span>
                 <span className="min-w-0 flex-1"><span dir="ltr" className="block truncate text-start text-[14px] font-semibold text-ink">{f}</span><span className="block text-[12px] text-muted-foreground">{d}</span></span>
@@ -182,9 +182,9 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
       )}
       {overlay?.t === "restoreConfirm" && (
         <WarningDialog tone="warning" icon={<ArchiveRestore className="size-6" />} title="Restore this backup?"
-          body="سيDone استبدال جميع البيانات الحالية على هذا الجهاز ببيانات النسخة المختارة (١٢ أكتوبر ٢٠٢٦)."
+          body="All current data on this device will be replaced by the selected October 12 backup."
           primary="Restore" secondary="Cancel" onClose={closeOverlay} onSecondary={closeOverlay}
-          onPrimary={() => { closeOverlay(); setSnack({ text: "Doneت Restore البيانات", undo: () => {} }); }} />
+          onPrimary={() => { closeOverlay(); setSnack({ text: "Data restored", undo: () => {} }); }} />
       )}
       {overlay?.t === "holiday" && (
         <HolidaySheet h={holidayEditing} onClose={closeOverlay}
@@ -193,7 +193,7 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
       )}
       {overlay?.t === "deleteHoliday" && (
         <WarningDialog tone="danger" icon={<Trash2 className="size-6" />} title="Delete holiday?"
-          body={`سيDone Delete «${holidays.find((h) => h.id === overlay.id)?.name}” will be deleted and its days will return to their default type.`}
+          body={`“${holidays.find((h) => h.id === overlay.id)?.name}” will be deleted and its days will return to their default type.`}
           primary="Delete holiday" secondary="Cancel" onClose={closeOverlay} onSecondary={closeOverlay}
           onPrimary={() => { setHolidays((l) => l.filter((h) => h.id !== overlay.id)); closeOverlay(); }} />
       )}
@@ -208,7 +208,7 @@ function SetupScreen({ onSave }: { onSave: (p: { name: string; group: string; id
   const [group, setGroup] = useState("");
   const [id, setId] = useState("");
   const [tried, setTried] = useState(false);
-  const errs = { name: !name.trim() ? "هذا الحقل مطلوب" : undefined, group: validateNum(group, true), id: validateNum(id, false) };
+  const errs = { name: !name.trim() ? "This field is required" : undefined, group: validateNum(group, true), id: validateNum(id, false) };
   const ok = !errs.name && !errs.group && !errs.id;
   return (
     <div className="flex min-h-full flex-col px-6 pb-8 pt-14">
@@ -259,16 +259,16 @@ function HomeScreen({ mode, minutes, name, sum, onAction, onFix, theme, onTheme 
           {x2 ? <DayTypeBadge type="x2" /> : warn ? (
             <span className="inline-flex h-6 items-center gap-1 rounded-full bg-warning-container px-2.5 text-[11.5px] font-semibold text-warning-ink"><AlertTriangle className="size-3" />Needs attention</span>
           ) : mode === "done" ? (
-            <span className="inline-flex h-6 items-center gap-1 rounded-full bg-success-container px-2.5 text-[11.5px] font-semibold text-success"><CircleCheck className="size-3" />اكDoneل اليوم</span>
+            <span className="inline-flex h-6 items-center gap-1 rounded-full bg-success-container px-2.5 text-[11.5px] font-semibold text-success"><CircleCheck className="size-3" />Day complete</span>
           ) : null}
         </div>
         <div className="flex justify-center py-4">
           <AttendanceRing minutes={minutes} x2={x2} warning={warn} active={active} size={238} />
         </div>
         <div className="flex min-h-7 items-center justify-center gap-2 text-[13.5px]">
-          {mode === "idle" && <span className="text-faint">لم يChecked in اليوم</span>}
+          {mode === "idle" && <span className="text-faint">No check-in recorded today</span>}
           {(mode === "normal" || mode === "done") && (
-            <span className="tabular text-muted-foreground">الIn <b className="font-semibold text-ink">{clock(443)}</b>{mode === "done" && <> · الOut <b className="font-semibold text-ink">{clock(443 + minutes)}</b></>}</span>
+            <span className="tabular text-muted-foreground">In <b className="font-semibold text-ink">{clock(443)}</b>{mode === "done" && <> · Out <b className="font-semibold text-ink">{clock(443 + minutes)}</b></>}</span>
           )}
           {(mode === "overtime" || x2 || (mode === "done" && ot > 0)) && (
             <span className="tabular inline-flex items-center gap-1.5 rounded-full bg-overtime-container px-3 py-1 font-semibold text-overtime-ink">
@@ -279,7 +279,7 @@ function HomeScreen({ mode, minutes, name, sum, onAction, onFix, theme, onTheme 
         {warn && (
           <div className="mt-3 flex gap-2.5 rounded-2xl bg-warning-container p-3 text-[13px] leading-relaxed text-warning-ink">
             <AlertTriangle className="mt-0.5 size-4 shrink-0" />
-            <div className="flex-1">مرّ أكثر From ٢٤ ساعة على الIn. يجب Correct checkout time يدوياً.
+            <div className="flex-1">This shift has been open for over 24 hours. Correct the checkout time manually.
               <button onClick={onFix} className="mt-1 block font-semibold underline underline-offset-4">Correct checkout time</button>
             </div>
           </div>
@@ -324,9 +324,9 @@ function MonthScreen({ m, days, ranges, onBack, onDay, onExport }: { m: number; 
         action={<button onClick={onExport} className="flex size-12 items-center justify-center rounded-full text-ink" aria-label="Export"><Share2 className="size-5" /></button>} />
       <div className="px-5">
         <div className="flex items-center gap-4 rounded-[22px] border border-border bg-surface px-4 py-3 shadow-card">
-          <div className="flex-1"><div className="text-[12px] text-muted-foreground">أيام العمل</div><div className="tabular text-[22px] font-semibold text-ink">{ar(s.workDays)}</div></div>
+          <div className="flex-1"><div className="text-[12px] text-muted-foreground">Workdays</div><div className="tabular text-[22px] font-semibold text-ink">{ar(s.workDays)}</div></div>
           <div className="h-10 w-px bg-border" />
-          <div className="flex-1"><div className="text-[12px] text-muted-foreground">إجمالي Overtime</div><div dir="ltr" className="tabular text-end text-[22px] font-semibold text-overtime-ink">{durShort(s.ot)}</div></div>
+          <div className="flex-1"><div className="text-[12px] text-muted-foreground">Total overtime</div><div dir="ltr" className="tabular text-end text-[22px] font-semibold text-overtime-ink">{durShort(s.ot)}</div></div>
         </div>
         {m < TODAY.m && (
           <div className="mt-3 flex items-center gap-2 px-1 text-[12.5px] text-muted-foreground"><Pencil className="size-3.5" />Archived month — every day remains editable</div>
@@ -381,7 +381,7 @@ function DayScreen({ rec, ranges, overlay, setOverlay, onBack, onSave, onDelete 
                 <TimeField label="Checkout time" value={outMin} disabled={!has} onClick={() => setOverlay({ t: "time", field: "out" })}
                   sub={outMin != null && outMin >= 1440 ? `${dayLabel(rec.m, rec.d + 1)}` : undefined} />
               </div>
-              {over && <div className="mt-2.5 flex gap-2 rounded-2xl bg-warning-container p-3 text-[12.5px] text-warning-ink"><AlertTriangle className="size-4 shrink-0" />المدة تتجاوز ٢٤ ساعة — عدّل Checkout time.</div>}
+              {over && <div className="mt-2.5 flex gap-2 rounded-2xl bg-warning-container p-3 text-[12.5px] text-warning-ink"><AlertTriangle className="size-4 shrink-0" />Duration exceeds 24 hours — correct checkout time.</div>}
               {has && outMin != null && !over && (
                 <div className="mt-3 flex rounded-2xl bg-surface-variant/70 py-2.5">
                   <div className="flex flex-1 flex-col items-center"><span className="text-[11.5px] text-faint">Shift time</span><span className="tabular text-[16px] font-semibold text-ink">{durShort(workMin(draft))}</span></div>
@@ -407,7 +407,7 @@ function DayScreen({ rec, ranges, overlay, setOverlay, onBack, onSave, onDelete 
 
         <Group title="Notes">
           {!canNote ? (
-            <div className="text-[13px] text-faint">تظهر Notes في الأيام المسجلة فقط</div>
+            <div className="text-[13px] text-faint">Notes appear only on recorded days</div>
           ) : note ? (
             <button onClick={() => setOverlay({ t: "note" })} className="press flex w-full items-start gap-3 rounded-2xl bg-primary-container/50 p-3 text-start">
               <StickyNote className="mt-0.5 size-4 shrink-0 text-primary" />
@@ -448,7 +448,7 @@ function DayScreen({ rec, ranges, overlay, setOverlay, onBack, onSave, onDelete 
       )}
       {overlay?.t === "delete" && (
         <WarningDialog tone="danger" icon={<Trash2 className="size-6" />} title="Delete day record؟"
-          body={<>سيDone Delete تسجيل يوم <b className="font-semibold text-ink">{dayLabel(rec.m, rec.d)} {ar(2026)}</b>: الIn {rec.inMin != null ? clock(rec.inMin) : ""}{rec.outMin != null ? ` والOut ${clock(rec.outMin)}` : ""}، وملاحظة هذا اليوم إن وجدت.</>}
+          body={<>This will delete the record for <b className="font-semibold text-ink">{dayLabel(rec.m, rec.d)} {ar(2026)}</b>: In {rec.inMin != null ? clock(rec.inMin) : ""}{rec.outMin != null ? ` وOut ${clock(rec.outMin)}` : ""}, including its day note if present.</>}
           primary="Delete record" secondary="Cancel" onClose={() => setOverlay(null)} onSecondary={() => setOverlay(null)} onPrimary={onDelete} />
       )}
     </div>
@@ -525,8 +525,8 @@ function MoreScreen({ profile, go }: { profile: { name: string; group: string; i
         </div>
         <div className="divide-y divide-border overflow-hidden rounded-[24px] border border-border bg-surface shadow-card">
           <Row s="holidays" t="Public holidays" sub="Egypt holidays for 2026" icon={<Flag className="size-5" />} tone="bg-overtime-container text-overtime-ink" />
-          <Row s="backup" t="النسخ الاحتياطي والRestore" sub="Local copy on this device" icon={<DatabaseBackup className="size-5" />} tone="bg-success-container text-success" />
-          <Row s="export" t="Export data" sub="Excel أو PDF" icon={<Download className="size-5" />} tone="bg-surface-variant text-ink" />
+          <Row s="backup" t="Backup & restore" sub="Local copy on this device" icon={<DatabaseBackup className="size-5" />} tone="bg-success-container text-success" />
+          <Row s="export" t="Export data" sub="Excel or PDF" icon={<Download className="size-5" />} tone="bg-surface-variant text-ink" />
         </div>
         <p className="flex items-center justify-center gap-1.5 pt-2 text-[12px] text-faint"><Smartphone className="size-3.5" />All data stays on this device</p>
       </div>
@@ -536,7 +536,7 @@ function MoreScreen({ profile, go }: { profile: { name: string; group: string; i
 
 function EmployeeScreen({ profile, onBack, onSave }: { profile: { name: string; group: string; id: string }; onBack: () => void; onSave: (p: { name: string; group: string; id: string }) => void }) {
   const [p, setP] = useState(profile);
-  const errs = { name: !p.name.trim() ? "هذا الحقل مطلوب" : undefined, group: validateNum(p.group, true), id: validateNum(p.id, false) };
+  const errs = { name: !p.name.trim() ? "This field is required" : undefined, group: validateNum(p.group, true), id: validateNum(p.id, false) };
   const ok = !errs.name && !errs.group && !errs.id;
   return (
     <div className="flex min-h-full flex-col pb-8">
@@ -565,7 +565,7 @@ function HolidaysScreen({ list, onBack, onEdit }: { list: Holiday[]; onBack: () 
       <AppBar title="Public holidays" onBack={onBack}
         action={<span className="me-3 rounded-full bg-surface-variant px-3 py-1 text-[13px] font-semibold text-ink">{ar(2026)}</span>} />
       <div className="px-5">
-        <div className="flex gap-2 rounded-2xl bg-overtime-container/60 p-3 text-[12.5px] leading-relaxed text-overtime-ink"><Info className="mt-0.5 size-4 shrink-0" />الجمعة والسبت وPublic holidays تُحتسب تلقائياً Double time، ويمكن تغيير نوع أي يوم يدوياً.</div>
+        <div className="flex gap-2 rounded-2xl bg-overtime-container/60 p-3 text-[12.5px] leading-relaxed text-overtime-ink"><Info className="mt-0.5 size-4 shrink-0" />Fridays, Saturdays, and public holidays count as double time. Any day can be changed manually.</div>
         {Object.entries(byMonth).map(([m, hs]) => (
           <div key={m} className="mt-5">
             <div className="mb-2 px-1 text-[13px] font-semibold text-faint">{MONTHS[+m]}</div>
@@ -629,16 +629,16 @@ function BackupScreen({ onBack, onCreate, onRestore }: { onBack: () => void; onC
   const items = ["Employee details", "Attendance records", "Notes", "Holiday changes", "Archived months", "Settings"];
   return (
     <div className="pb-8">
-      <AppBar title="النسخ الاحتياطي والRestore" onBack={onBack} />
+      <AppBar title="Backup & restore" onBack={onBack} />
       <div className="space-y-3 px-5">
         <button onClick={onCreate} className="press w-full rounded-[24px] bg-primary p-5 text-start text-primary-foreground shadow-button">
           <span className="flex size-12 items-center justify-center rounded-2xl bg-primary-foreground/15"><HardDriveDownload className="size-6" /></span>
           <span className="mt-4 block text-[18px] font-semibold">Create backup</span>
-          <span className="mt-1 block text-[13px] opacity-80">آخر نسخة: October 12, 2026 · 8:05 PM</span>
+          <span className="mt-1 block text-[13px] opacity-80">Last backup: October 12, 2026 · 8:05 PM</span>
         </button>
         <button onClick={onRestore} className="press flex w-full items-center gap-3.5 rounded-[24px] border border-border bg-surface p-5 text-start shadow-card">
           <span className="flex size-12 items-center justify-center rounded-2xl bg-surface-variant text-ink"><ArchiveRestore className="size-6" /></span>
-          <span className="flex-1"><span className="block text-[16px] font-semibold text-ink">Restore نسخة احتياطية</span><span className="block text-[12.5px] text-muted-foreground">From ملف محفوظ على الجهاز</span></span>
+          <span className="flex-1"><span className="block text-[16px] font-semibold text-ink">Restore backup</span><span className="block text-[12.5px] text-muted-foreground">From a file saved on this device</span></span>
           <ChevronLeft className="size-5 text-faint" />
         </button>
         <div className="rounded-[22px] border border-border bg-surface p-4">
@@ -674,12 +674,12 @@ function ExportScreen({ onBack, onShare }: { onBack: () => void; onShare: (f: st
         </div>
         <div className="mt-5 rounded-[22px] border border-border bg-surface-variant/60 p-4">
           <div className="mx-auto w-[220px] rounded-md bg-surface p-3 shadow-card">
-            <div className="text-center text-[9px] font-bold text-ink">كشف الOvertime — {monthLabel(m)}</div>
-            <div className="mt-1 flex justify-between text-[7px] text-muted-foreground"><span>Alex Morgan</span><span>Group ١٢ · رقم ٣٤٨</span></div>
+            <div className="text-center text-[9px] font-bold text-ink">Overtime report — {monthLabel(m)}</div>
+            <div className="mt-1 flex justify-between text-[7px] text-muted-foreground"><span>Alex Morgan</span><span>Group 12 · ID 348</span></div>
             <div className="mt-2 space-y-[3px]">
               {Array.from({ length: 9 }, (_, i) => (
                 <div key={i} className={cn("grid grid-cols-5 gap-1 text-[6.5px] text-ink", i === 0 && "font-bold")}>
-                  {(i === 0 ? ["اليوم", "In", "Out", "Hours", "OT"] : [ar(i), "7:23", "7:15", "11:52", "2:52"]).map((c, j) => (
+                  {(i === 0 ? ["Day", "In", "Out", "Hours", "OT"] : [ar(i), "7:23", "7:15", "11:52", "2:52"]).map((c, j) => (
                     <span key={j} className={cn("rounded-[2px] px-0.5 py-[1px] text-center", i === 0 ? "bg-primary-container" : "bg-surface-variant")}>{c}</span>
                   ))}
                 </div>
@@ -720,7 +720,7 @@ function ShareSheet({ file, onClose }: { file: string; onClose: () => void }) {
           </button>
         ))}
       </div>
-      <button onClick={onClose} className="press mt-5 flex h-12 w-full items-center justify-center gap-2 rounded-[16px] border border-border text-[14.5px] font-semibold text-ink"><Download className="size-4" />Save في الجهاز</button>
+      <button onClick={onClose} className="press mt-5 flex h-12 w-full items-center justify-center gap-2 rounded-[16px] border border-border text-[14.5px] font-semibold text-ink"><Download className="size-4" />Save to device</button>
       <p className="mt-3 text-center text-[11.5px] text-faint">Android share sheet</p>
     </Sheet>
   );

@@ -188,7 +188,7 @@ export function DayTypeBadge({ type }: { type: "work" | "holiday" | "x2" | "week
     work: { t: "Workday", c: "bg-surface-variant text-muted-foreground", i: null },
     holiday: { t: "Public holiday", c: "bg-overtime-container text-overtime-ink", i: <Flag className="size-3" /> },
     weekend: { t: "Weekend", c: "bg-overtime-container text-overtime-ink", i: <MoonStar className="size-3" /> },
-    x2: { t: "×٢", c: "bg-overtime text-primary-foreground", i: null },
+    x2: { t: "×2", c: "bg-overtime text-primary-foreground", i: null },
     today: { t: "Today", c: "bg-primary-container text-on-primary-container", i: null },
     future: { t: "Future day", c: "bg-surface-variant text-faint", i: null },
   }[type];
@@ -271,7 +271,7 @@ function Metric({ label, value, accent, sub }: { label: string; value: string; a
     </div>
   );
 }
-export const SCOPE_LABEL: Record<NoteScope, string> = { day: "هذا Today فقط", month: "Rest of month", range: "Date range" };
+export const SCOPE_LABEL: Record<NoteScope, string> = { day: "This day only", month: "Rest of month", range: "Date range" };
 function NoteLine({ note }: { note: { text: string; scope: NoteScope } }) {
   return (
     <div className="mt-2.5 flex items-center gap-2 text-[12.5px] text-muted-foreground">
@@ -328,7 +328,7 @@ export function TimeField({ label, value, sub, disabled, onClick }: { label: str
 export function NoteScopeSelector({ value, onChange }: { value: NoteScope; onChange: (s: NoteScope) => void }) {
   const items: { k: NoteScope; hint: string }[] = [
     { k: "day", hint: "Overrides any general note" },
-    { k: "month", hint: "من هذا Today حتى آخر الشهر" },
+    { k: "month", hint: "From this day to month end" },
     { k: "range", hint: "Choose start and end dates" },
   ];
   return (
@@ -483,7 +483,7 @@ export function MonthEndDialog({ m, workDays, ot, openSession, onExcel, onPdf, o
           {openSession && (
             <div className="mb-4 flex gap-2.5 rounded-2xl bg-warning-container p-3 text-[13px] leading-relaxed text-warning-ink">
               <AlertTriangle className="mt-0.5 size-4 shrink-0" />
-              <span>لا يزال حضور يوم ٣٠ سبDoneبر مفتوحاً. يمكنك متابعته وCheck out Later.</span>
+              <span>The September 30 shift is still open. You can complete it later.</span>
             </div>
           )}
           <div className="grid grid-cols-2 gap-2">
