@@ -4,6 +4,7 @@ import {
   Sparkles, Flag, MoonStar, ArrowRight, Clock3, Keyboard, AlertTriangle, CircleCheck, X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   ar, clock, dur, durShort, dayLabel, monthLabel, MONTHS, WEEKDAYS, attended, isX2, otMin, workMin,
   type DayRec, type NoteScope,
@@ -51,7 +52,7 @@ export function AttendanceRing({
   minutes, x2 = false, warning = false, active = false, size = 252,
 }: { minutes: number; x2?: boolean; warning?: boolean; active?: boolean; size?: number }) {
   const shown = useTween(minutes);
-  const stroke = 20;
+  const stroke = 12;
   const c = size / 2;
   const r = c - stroke / 2 - 8;
   const p = Math.min(shown / FULL, 1);
@@ -93,7 +94,7 @@ export function AttendanceRing({
           </g>
         )}
       </svg>
-      <div className="absolute inset-[36px] flex flex-col items-center justify-center rounded-full border border-border bg-background shadow-card">
+      <div className="absolute inset-[30px] flex flex-col items-center justify-center rounded-full border border-border bg-surface/70 shadow-card backdrop-blur-xl">
         <div className="mb-1 h-2.5">
           {active && <span className="pulse-dot block size-2 rounded-full bg-success" aria-label="Attendance active" />}
         </div>
@@ -114,18 +115,18 @@ export function AttendanceRing({
 export function AttendancePrimaryButton({ state, onClick }: { state: "in" | "out" | "done"; onClick: () => void }) {
   if (state === "done")
     return (
-      <button onClick={onClick} className="press flex h-14 w-full items-center justify-center gap-2 rounded-[14px] border border-border bg-surface text-[16px] font-semibold text-ink">
+      <Button variant="ghost" onClick={onClick} className="press flex h-14 w-full items-center justify-center gap-2 rounded-full border border-border bg-surface text-[16px] font-semibold text-ink shadow-card">
         <CircleCheck className="size-5 text-success" /> View day details
-      </button>
+      </Button>
     );
   const out = state === "out";
   return (
-    <button onClick={onClick}
-      className={cn("press flex h-[58px] w-full items-center justify-center gap-2.5 rounded-[14px] text-[17px] font-semibold",
+    <Button variant="ghost" onClick={onClick}
+      className={cn("press flex h-[58px] w-full items-center justify-center gap-2.5 rounded-full text-[17px] font-semibold",
         out ? "bg-ink text-primary-foreground shadow-card" : "bg-primary text-primary-foreground shadow-button")}>
       {out ? <LogOut className="size-5 -scale-x-100" /> : <LogIn className="size-5 -scale-x-100" />}
       {out ? "Check out" : "Check in"}
-    </button>
+    </Button>
   );
 }
 
@@ -404,17 +405,16 @@ export function BottomNavigation({ tab, onChange }: { tab: Tab; onChange: (t: Ta
     { k: "more", t: "More", i: LayoutGrid },
   ];
   return (
-    <nav className="mx-5 mb-3 flex h-[68px] shrink-0 items-start justify-around rounded-[20px] border border-border bg-surface/75 px-4 pt-2 backdrop-blur-xl shadow-card">
+    <nav aria-label="Main navigation" className="mx-5 mb-3 flex h-[72px] shrink-0 items-center justify-around rounded-full border border-border bg-surface/75 px-2 shadow-card">
       {items.map(({ k, t, i: Icon }) => {
         const on = tab === k;
         return (
-          <button key={k} onClick={() => onChange(k)} className="flex w-20 flex-col items-center gap-1" aria-current={on}>
-            <span className={cn("flex h-8 w-16 items-center justify-center rounded-[10px] transition-all duration-300",
-              on ? "bg-primary-container text-primary" : "text-faint")}> 
+          <Button variant="ghost" key={k} onClick={() => onChange(k)} className={cn("flex h-[60px] w-[100px] flex-col gap-0.5 rounded-full px-0 shadow-none", on ? "bg-primary-container/80 text-primary shadow-card" : "text-faint")} aria-current={on ? "page" : undefined}>
+            <span className="flex h-7 w-16 items-center justify-center">
               <Icon className="size-[21px]" strokeWidth={on ? 2.2 : 1.8} />
             </span>
             <span className={cn("text-[12px]", on ? "font-semibold text-ink" : "font-medium text-faint")}>{t}</span>
-          </button>
+          </Button>
         );
       })}
     </nav>
