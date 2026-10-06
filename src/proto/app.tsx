@@ -6,7 +6,6 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import liquidWallpaper from "@/assets/liquid-glass-wallpaper.jpg";
 import {
   ar, clock, dur, durShort, dayLabel, monthLabel, MONTHS, TODAY, HOLIDAYS, RANGE_NOTES, ARCHIVE_STATIC,
   buildMonth, effectiveNote, summarize, isX2, otMin, workMin, attended,
@@ -122,7 +121,6 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
 
   return (
     <div data-theme={theme} className="liquid-app relative flex h-full flex-col overflow-hidden bg-background">
-      <img src={liquidWallpaper} alt="" aria-hidden="true" width={1024} height={1536} className="liquid-wallpaper" />
       <div className="flex-1 overflow-y-auto no-scrollbar" key={screen}>
         <div className="min-h-full animate-in fade-in duration-300">{content}</div>
       </div>
