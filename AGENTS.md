@@ -10,4 +10,3 @@
 <!-- LOVABLE:END -->
 
 - Keep the interface theme semantic and centralized in `src/styles.css` so every prototype state shares one visual system.
-- Render the decorative wallpaper once beneath the prototype, with glass surfaces using shared CSS material tokens; this keeps every screen consistent without duplicating backgrounds.

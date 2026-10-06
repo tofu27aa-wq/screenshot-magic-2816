@@ -6,7 +6,7 @@
 
 /*
  * Design system — "Daftar" offline attendance prototype.
- * iOS-inspired Liquid Glass attendance interface. All colors in oklch.
+ * Obsidian spatial-glass attendance interface with switchable palettes. All colors in oklch.
  */
 
 @theme inline {
@@ -64,75 +64,43 @@
 
 :root {
   --radius: 0.75rem;
-  --stage: oklch(0.94 0.012 240);
-  --device: oklch(0.86 0.012 240);
-  --background: oklch(0.97 0.008 235);
-  --foreground: oklch(0.25 0.03 250);
+  --stage: oklch(0.09 0.008 265);
+  --device: oklch(0.07 0.008 265);
+  --background: oklch(0.13 0.012 265);
+  --foreground: oklch(0.97 0.006 265);
   --ink: var(--foreground);
-  --text-muted: oklch(0.47 0.025 250);
-  --surface: oklch(1 0 0 / 0.58);
-  --surface-variant: oklch(0.92 0.016 240 / 0.65);
+  --text-muted: oklch(0.58 0.018 265);
+  --surface: oklch(0.18 0.014 265 / 0.88);
+  --surface-variant: oklch(0.23 0.016 265 / 0.8);
   --card: var(--surface); --card-foreground: var(--foreground);
-  --popover: oklch(0.98 0.006 240 / .94); --popover-foreground: var(--foreground);
-  --primary: oklch(0.54 0.21 255); --primary-foreground: oklch(1 0 0);
-  --primary-container: oklch(0.91 0.04 245 / 0.72); --on-primary-container: oklch(0.43 0.15 255);
+  --popover: oklch(0.17 0.014 265); --popover-foreground: var(--foreground);
+  --primary: oklch(0.79 0.16 166); --primary-foreground: oklch(0.12 0.03 166);
+  --primary-container: oklch(0.26 0.055 166 / 0.82); --on-primary-container: oklch(0.86 0.1 166);
   --secondary: var(--surface-variant); --secondary-foreground: var(--foreground);
-  --muted: var(--surface-variant); --muted-foreground: oklch(0.43 0.025 250);
+  --muted: var(--surface-variant); --muted-foreground: oklch(0.7 0.015 265);
   --accent: var(--primary-container); --accent-foreground: var(--on-primary-container);
-  --destructive: oklch(0.55 0.21 25); --destructive-foreground: oklch(0.99 0 0); --error-container: oklch(0.94 0.035 25);
-  --border: oklch(1 0 0 / 0.78); --outline: oklch(0.55 0.025 250 / 0.35); --input: oklch(0.72 0.025 250 / 0.45); --ring: var(--primary);
-  --success: oklch(0.45 0.12 165); --success-container: oklch(0.93 0.045 165 / .8);
-  --warning: oklch(0.68 0.16 75); --warning-container: oklch(0.96 0.04 80 / .85); --warning-ink: oklch(0.43 0.1 60);
-  --overtime: oklch(0.62 0.18 35); --overtime-soft: oklch(0.75 0.1 45); --overtime-container: oklch(0.95 0.035 45 / .8); --overtime-ink: oklch(0.46 0.14 35);
-  --normal-work: var(--primary); --normal-work-soft: oklch(0.75 0.12 220); --normal-work-container: var(--primary-container);
-  --ring-track: oklch(0.78 0.04 240 / 0.22); --ring-marker: oklch(0.54 0.1 240);
-  --inverse: oklch(0.25 0.03 250); --inverse-foreground: oklch(0.99 0 0);
+  --destructive: oklch(0.68 0.2 25); --destructive-foreground: oklch(0.99 0 0); --error-container: oklch(0.25 0.07 25);
+  --border: oklch(0.98 0 0 / 0.105); --outline: oklch(0.98 0 0 / 0.2); --input: oklch(0.98 0 0 / 0.14); --ring: var(--primary);
+  --success: var(--primary); --success-container: var(--primary-container);
+  --warning: oklch(0.8 0.15 75); --warning-container: oklch(0.27 0.06 70); --warning-ink: oklch(0.87 0.12 78);
+  --overtime: oklch(0.73 0.15 45); --overtime-soft: oklch(0.82 0.09 55); --overtime-container: oklch(0.27 0.055 48); --overtime-ink: oklch(0.84 0.12 55);
+  --normal-work: var(--primary); --normal-work-soft: oklch(0.66 0.1 177); --normal-work-container: var(--primary-container);
+  --ring-track: oklch(0.98 0 0 / 0.07); --ring-marker: oklch(0.9 0.04 170);
+  --inverse: oklch(0.94 0.008 265); --inverse-foreground: oklch(0.13 0.012 265);
   --chart-1: var(--normal-work); --chart-2: var(--overtime); --chart-3: var(--success); --chart-4: var(--warning); --chart-5: var(--destructive);
   --sidebar: var(--surface); --sidebar-foreground: var(--foreground); --sidebar-primary: var(--primary); --sidebar-primary-foreground: var(--primary-foreground); --sidebar-accent: var(--accent); --sidebar-accent-foreground: var(--accent-foreground); --sidebar-border: var(--border); --sidebar-ring: var(--ring);
-  --gradient-hero: linear-gradient(145deg, oklch(1 0 0 / .68), oklch(1 0 0 / .28));
-  --gradient-hero-x2: linear-gradient(145deg, oklch(1 0 0 / .72), oklch(0.95 0.04 45 / .4));
-  --gradient-hero-warning: linear-gradient(145deg, oklch(1 0 0 / .72), oklch(0.96 0.04 80 / .5));
-  --shadow-card: 0 1px 1px oklch(1 0 0 / .95) inset, 0 -1px 1px oklch(1 0 0 / .45) inset, 0 8px 24px -12px oklch(0.35 0.05 240 / .18);
-  --shadow-hero: 0 1px 1px oklch(1 0 0) inset, 0 -1px 1px oklch(1 0 0 / .5) inset, 0 18px 45px -24px oklch(0.35 0.06 240 / .25);
-  --shadow-button: 0 1px 1px oklch(1 0 0 / .4) inset, 0 8px 20px -8px color-mix(in oklab, var(--primary) 45%, transparent);
-  --shadow-sheet: 0 -12px 60px -18px oklch(0.3 0.05 240 / .2);
-  --shadow-device: 0 35px 90px -30px oklch(0.25 0.03 240 / .32), 0 0 0 1px oklch(1 0 0 / .9);
+  --gradient-hero: linear-gradient(155deg, oklch(0.21 0.022 265 / .94), oklch(0.14 0.014 265 / .98));
+  --gradient-hero-x2: linear-gradient(155deg, oklch(0.23 0.046 50 / .94), oklch(0.14 0.014 265 / .98));
+  --gradient-hero-warning: linear-gradient(155deg, oklch(0.23 0.045 70 / .94), oklch(0.14 0.014 265 / .98));
+  --shadow-card: 0 1px 0 oklch(1 0 0 / .06) inset, 0 18px 45px -32px oklch(0 0 0 / .9);
+  --shadow-hero: 0 1px 0 oklch(1 0 0 / .08) inset, 0 30px 70px -34px oklch(0 0 0 / .95);
+  --shadow-button: 0 14px 35px -18px color-mix(in oklab, var(--primary) 70%, transparent);
+  --shadow-sheet: 0 -24px 70px -22px oklch(0 0 0 / .85);
+  --shadow-device: 0 60px 140px -36px oklch(0 0 0 / .95), 0 0 0 1px oklch(1 0 0 / .05);
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 }
-[data-theme="aurora"] { --primary: oklch(0.46 0.13 175); --primary-container: oklch(0.91 0.045 175 / .72); --on-primary-container: oklch(0.38 0.1 175); --normal-work-soft: oklch(0.74 0.1 175); }
-[data-theme="solar"] { --primary: oklch(0.52 0.18 25); --primary-container: oklch(0.93 0.035 25 / .72); --on-primary-container: oklch(0.43 0.15 25); --normal-work-soft: oklch(0.75 0.1 25); }
-
-/* Liquid Glass material: clear body, specular rims, inner glow, layered contact shadows. Works on any canvas. */
-.liquid-app {
-  isolation: isolate;
-  --surface: oklch(1 0 0 / 0.32);
-  --border: oklch(1 0 0 / 0.65);
-  --shadow-card:
-    inset 0 1.5px 0.5px oklch(1 0 0 / .9), inset 0 -1px 0.5px oklch(1 0 0 / .45),
-    inset 0 0 20px oklch(1 0 0 / .35), inset 1px 0 0 oklch(1 0 0 / .4), inset -1px 0 0 oklch(1 0 0 / .4),
-    0 1px 2px oklch(0.3 0.04 250 / .08), 0 10px 30px -12px oklch(0.3 0.05 250 / .22);
-  --shadow-hero:
-    inset 0 2px 1px oklch(1 0 0 / .95), inset 0 -1.5px 1px oklch(1 0 0 / .5),
-    inset 0 0 32px oklch(1 0 0 / .4),
-    0 2px 4px oklch(0.3 0.04 250 / .08), 0 24px 50px -22px oklch(0.3 0.06 250 / .3);
-  --shadow-button:
-    inset 0 1.5px 0.5px oklch(1 0 0 / .55), inset 0 -2px 4px oklch(0 0 0 / .14),
-    inset 0 0 14px oklch(1 0 0 / .18),
-    0 2px 4px color-mix(in oklab, var(--primary) 25%, transparent), 0 12px 26px -10px color-mix(in oklab, var(--primary) 55%, transparent);
-  background:
-    radial-gradient(120% 60% at 15% 0%, color-mix(in oklab, var(--primary) 16%, transparent), transparent 60%),
-    radial-gradient(90% 50% at 100% 100%, color-mix(in oklab, var(--overtime) 10%, transparent), transparent 60%),
-    linear-gradient(180deg, oklch(0.975 0.006 240), oklch(0.93 0.012 245));
-}
-.liquid-app .shadow-card, .liquid-app .shadow-hero, .liquid-app .shadow-sheet { backdrop-filter: blur(24px) saturate(180%) brightness(1.04); -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.04); }
-.liquid-app .shadow-button { position: relative; background-image: linear-gradient(180deg, oklch(1 0 0 / .28), transparent 55%); }
-.liquid-app nav { backdrop-filter: blur(30px) saturate(190%); -webkit-backdrop-filter: blur(30px) saturate(190%); background-image: linear-gradient(180deg, oklch(1 0 0 / .5), oklch(1 0 0 / .18)); }
-.liquid-app .ambient-grid { background-image: none; }
-.liquid-app button { -webkit-tap-highlight-color: transparent; }
-.liquid-app button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-}
+[data-theme="aurora"] { --primary: oklch(0.72 0.16 230); --primary-foreground: oklch(0.12 0.025 230); --primary-container: oklch(0.25 0.06 230 / .82); --on-primary-container: oklch(0.84 0.09 225); --normal-work-soft: oklch(0.67 0.1 220); }
+[data-theme="solar"] { --primary: oklch(0.84 0.14 88); --primary-foreground: oklch(0.15 0.025 75); --primary-container: oklch(0.27 0.06 82 / .82); --on-primary-container: oklch(0.89 0.1 88); --normal-work-soft: oklch(0.7 0.1 95); }
 
 @utility shadow-card { box-shadow: var(--shadow-card); }
 @utility shadow-hero { box-shadow: var(--shadow-hero); }

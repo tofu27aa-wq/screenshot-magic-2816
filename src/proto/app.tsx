@@ -5,7 +5,6 @@ import {
   Cloud, Folder, Smartphone, Lock, Info, Pencil, Flag, Download, CircleCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import {
   ar, clock, dur, durShort, dayLabel, monthLabel, MONTHS, TODAY, HOLIDAYS, RANGE_NOTES, ARCHIVE_STATIC,
   buildMonth, effectiveNote, summarize, isX2, otMin, workMin, attended,
@@ -37,7 +36,7 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
   const [profile, setProfile] = useState({ name: "Alex Morgan", group: "12", id: "348" });
   const [snack, setSnack] = useState<{ text: string; undo: () => void } | null>(null);
   const [tick, setTick] = useState(0);
-  const [theme, setTheme] = useState<"liquid" | "aurora" | "solar">("liquid");
+  const [theme, setTheme] = useState<"obsidian" | "aurora" | "solar">("obsidian");
 
   const active = mode === "normal" || mode === "overtime" || mode === "x2";
   useEffect(() => {
@@ -78,7 +77,7 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
               setSnack({ text: "Checked out", undo: () => setState({ mode: prev }) });
             }
           }}
-          onFix={() => go({ screen: "day", month: 9, day: 14 })} theme={theme} onTheme={() => setTheme((t) => t === "liquid" ? "aurora" : t === "aurora" ? "solar" : "liquid")} />
+          onFix={() => go({ screen: "day", month: 9, day: 14 })} theme={theme} onTheme={() => setTheme((t) => t === "obsidian" ? "aurora" : t === "aurora" ? "solar" : "obsidian")} />
       );
       case "records": return (
         <RecordsScreen cur={curSum} sep={summarize(months[8])} onOpen={(m) => go({ screen: "month", month: m })}
@@ -120,7 +119,7 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
   const dismissSnack = useCallback(() => setSnack(null), []);
 
   return (
-    <div data-theme={theme} className="liquid-app relative flex h-full flex-col overflow-hidden bg-background">
+    <div data-theme={theme} className="relative flex h-full flex-col overflow-hidden bg-background">
       <div className="flex-1 overflow-y-auto no-scrollbar" key={screen}>
         <div className="min-h-full animate-in fade-in duration-300">{content}</div>
       </div>
@@ -239,6 +238,7 @@ function HomeScreen({ mode, minutes, name, sum, onAction, onFix, theme, onTheme 
   const ot = x2 ? minutes : Math.max(0, minutes - 540);
   return (
     <div className="ambient-grid relative min-h-full overflow-hidden px-5 pb-5">
+      <div className="pointer-events-none absolute -top-28 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
       <header className="relative flex items-center gap-3 pb-5 pt-4">
         <div className="relative flex size-12 items-center justify-center rounded-2xl border border-primary/30 bg-primary-container text-on-primary-container shadow-card">
           <User className="size-5" />
@@ -248,11 +248,12 @@ function HomeScreen({ mode, minutes, name, sum, onAction, onFix, theme, onTheme 
           <div className="text-[12px] font-medium text-faint">Good evening,</div>
           <div className="mt-0.5 text-[19px] font-bold text-ink">{name}</div>
         </div>
-        <Button variant="ghost" size="icon" onClick={onTheme} className="press size-10 rounded-full border border-border bg-surface/70 text-primary shadow-card backdrop-blur-xl" aria-label={`Change color theme. Current: ${theme}`} title="Change theme"><Palette className="size-[18px]" /></Button>
+        <button onClick={onTheme} className="press flex size-10 items-center justify-center rounded-full border border-border bg-surface/70 text-primary backdrop-blur-xl" aria-label={`Change color theme. Current: ${theme}`} title="Change theme"><Palette className="size-[18px]" /></button>
       </header>
 
       <section className={cn("relative overflow-hidden rounded-[24px] border border-border px-5 pb-5 pt-4 backdrop-blur-2xl shadow-hero transition-colors duration-500",
         warn ? "bg-hero-warning" : x2 ? "bg-hero-x2" : "bg-hero")}>
+        <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-primary/70" />
         <div className="flex items-center justify-between">
           <span className="text-[13px] font-medium text-muted-foreground">{dayLabel(dateM, dateD)}</span>
           {x2 ? <DayTypeBadge type="x2" /> : warn ? (
