@@ -93,11 +93,11 @@ export function AttendanceRing({
           </g>
         )}
       </svg>
-      <div className="absolute inset-[36px] flex flex-col items-center justify-center rounded-full border border-border bg-background shadow-card">
+      <div className="absolute inset-[36px] flex flex-col items-center justify-center rounded-full">
         <div className="mb-1 h-2.5">
           {active && <span className="pulse-dot block size-2 rounded-full bg-success" aria-label="Attendance active" />}
         </div>
-        <div dir="ltr" className={cn("tabular font-display text-[48px] font-semibold leading-none",
+        <div dir="ltr" className={cn("tabular font-display text-[50px] font-medium leading-none tracking-[-0.03em]",
           warning ? "text-warning-ink" : "text-ink")}>
           {dur(m)}
         </div>
@@ -114,15 +114,15 @@ export function AttendanceRing({
 export function AttendancePrimaryButton({ state, onClick }: { state: "in" | "out" | "done"; onClick: () => void }) {
   if (state === "done")
     return (
-      <button onClick={onClick} className="press flex h-14 w-full items-center justify-center gap-2 rounded-[14px] border border-border bg-surface text-[16px] font-semibold text-ink">
+      <button onClick={onClick} className="glass glass-clear flex h-14 w-full items-center justify-center gap-2 rounded-[var(--r-control)] text-[16px] font-semibold text-ink">
         <CircleCheck className="size-5 text-success" /> View day details
       </button>
     );
   const out = state === "out";
   return (
     <button onClick={onClick}
-      className={cn("press flex h-[58px] w-full items-center justify-center gap-2.5 rounded-[14px] text-[17px] font-semibold",
-        out ? "bg-ink text-primary-foreground shadow-card" : "bg-primary text-primary-foreground shadow-button")}>
+      className={cn("glass flex h-[58px] w-full items-center justify-center gap-2.5 rounded-[var(--r-control)] text-[17px] font-semibold",
+        out ? "glass-regular text-ink" : "glass-prominent text-primary-foreground")}>
       {out ? <LogOut className="size-5 -scale-x-100" /> : <LogIn className="size-5 -scale-x-100" />}
       {out ? "Check out" : "Check in"}
     </button>
@@ -133,7 +133,7 @@ export function AttendancePrimaryButton({ state, onClick }: { state: "in" | "out
 export function MonthKpiCard({ kind, value }: { kind: "days" | "ot"; value: string }) {
   const ot = kind === "ot";
   return (
-    <div className="flex flex-1 flex-col rounded-[18px] border border-border bg-surface/70 p-4 shadow-card backdrop-blur-xl">
+    <div className="flex flex-1 flex-col rounded-[18px] bg-surface p-4">
       <div className={cn("flex size-9 items-center justify-center rounded-[10px]",
         ot ? "bg-overtime-container text-overtime-ink" : "bg-primary-container text-on-primary-container")}>
         {ot ? <Timer className="size-[18px]" /> : <CalendarCheck2 className="size-[18px]" />}
@@ -151,7 +151,7 @@ export function MonthKpiCard({ kind, value }: { kind: "days" | "ot"; value: stri
 /* ---------- MonthlyArchiveCard ---------- */
 export function MonthlyArchiveCard({ m, workDays, ot, current, onClick }: { m: number; workDays: number; ot: number; current?: boolean; onClick: () => void }) {
   return (
-    <button onClick={onClick} className={cn("press w-full rounded-[20px] border bg-surface/80 p-4 backdrop-blur-xl text-start shadow-card",
+    <button onClick={onClick} className={cn("press w-full rounded-[20px] border bg-surface p-4 text-start",
       current ? "border-primary/25" : "border-border")}>
       <div className="flex items-center gap-3">
         <div className={cn("flex size-12 flex-col items-center justify-center rounded-2xl",
@@ -163,7 +163,7 @@ export function MonthlyArchiveCard({ m, workDays, ot, current, onClick }: { m: n
           <div className="text-[17px] font-semibold text-ink">{monthLabel(m)}</div>
           <div className="text-[12.5px] text-faint">{current ? "Current month" : "Archived · Editable"}</div>
         </div>
-        <ChevronLeft className="size-5 text-faint" />
+        <ChevronLeft className="size-5 rotate-180 text-faint" />
       </div>
       <div className="mt-4 flex rounded-2xl bg-surface-variant/70 px-1 py-3">
         <Stat label="Workdays" value={ar(workDays)} />
@@ -240,14 +240,14 @@ export function DailyRecordCard({ day, note, onClick }: { day: DayRec; note: { t
   }
   const open = day.outMin == null;
   return (
-    <button onClick={onClick} className={cn("press w-full rounded-[18px] border bg-surface/80 p-3.5 backdrop-blur-xl text-start shadow-card",
+    <button onClick={onClick} className={cn("press w-full rounded-[18px] border bg-surface p-3.5 text-start",
       day.today ? "border-primary/30" : "border-border")}>
       <div className="flex gap-3">
         {dateTile}
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
             <div className="text-[15px] font-semibold text-ink">{dayLabel(day.m, day.d)}</div>
-            <ChevronLeft className="mt-0.5 size-4 shrink-0 text-faint" />
+            <ChevronLeft className="mt-0.5 size-4 shrink-0 rotate-180 text-faint" />
           </div>
           <div className="mt-1.5">{badges}</div>
         </div>
@@ -357,7 +357,7 @@ export function NoteScopeSelector({ value, onChange }: { value: NoteScope; onCha
 /* ---------- HolidayCard ---------- */
 export function HolidayCard({ name, m, d, days, onEdit }: { name: string; m: number; d: number; days: number; onEdit: () => void }) {
   return (
-    <button onClick={onEdit} className="press flex w-full items-center gap-3 rounded-[20px] border border-border bg-surface p-3 text-start shadow-card">
+    <button onClick={onEdit} className="press flex w-full items-center gap-3 rounded-[20px] bg-surface p-3 text-start">
       <div className="flex w-12 flex-col items-center rounded-2xl bg-overtime-container py-2 text-overtime-ink">
         <span className="tabular text-[18px] font-semibold leading-none">{ar(d)}</span>
         <span className="mt-1 text-[10.5px] font-medium">{MONTHS[m]}</span>
@@ -370,7 +370,7 @@ export function HolidayCard({ name, m, d, days, onEdit }: { name: string; m: num
           <span>· Counted as double time</span>
         </div>
       </div>
-      <ChevronLeft className="size-4 text-faint" />
+      <ChevronLeft className="size-4 rotate-180 text-faint" />
     </button>
   );
 }
@@ -379,13 +379,13 @@ export function HolidayCard({ name, m, d, days, onEdit }: { name: string; m: num
 export function ExportAction({ icon, label, sub, onClick, selected, compact }: { icon: ReactNode; label: string; sub?: string; onClick: () => void; selected?: boolean; compact?: boolean }) {
   if (compact)
     return (
-      <button onClick={onClick} className="press flex h-11 items-center gap-2 rounded-full border border-border bg-surface px-3.5 text-[13.5px] font-semibold text-ink shadow-card">
+      <button onClick={onClick} className="press flex h-11 items-center gap-2 rounded-full bg-surface px-3.5 text-[13.5px] font-semibold text-ink">
         <span className="text-primary">{icon}</span>{label}
       </button>
     );
   return (
     <button onClick={onClick} className={cn("press flex flex-1 flex-col items-start gap-3 rounded-[20px] border p-4 text-start",
-      selected ? "border-primary bg-primary-container/50" : "border-border bg-surface shadow-card")}>
+      selected ? "border-primary bg-primary-container/50" : "border-border bg-surface")}>
       <span className={cn("flex size-10 items-center justify-center rounded-xl", selected ? "bg-primary text-primary-foreground" : "bg-surface-variant text-ink")}>{icon}</span>
       <span>
         <span className="block text-[15px] font-semibold text-ink">{label}</span>
@@ -404,16 +404,16 @@ export function BottomNavigation({ tab, onChange }: { tab: Tab; onChange: (t: Ta
     { k: "more", t: "More", i: LayoutGrid },
   ];
   return (
-    <nav className="mx-5 mb-3 flex h-[68px] shrink-0 items-start justify-around rounded-[20px] border border-border bg-surface/75 px-4 pt-2 backdrop-blur-xl shadow-card">
+    <nav className="glass glass-regular absolute inset-x-6 bottom-4 z-20 flex h-[64px] items-center justify-around rounded-[var(--r-bar)] px-2">
       {items.map(({ k, t, i: Icon }) => {
         const on = tab === k;
         return (
-          <button key={k} onClick={() => onChange(k)} className="flex w-20 flex-col items-center gap-1" aria-current={on}>
-            <span className={cn("flex h-8 w-16 items-center justify-center rounded-[10px] transition-all duration-300",
-              on ? "bg-primary-container text-primary" : "text-faint")}> 
+          <button key={k} onClick={() => onChange(k)} className="relative z-[2] flex h-[54px] w-24 flex-col items-center justify-center gap-0.5 rounded-[22px] transition-colors duration-300" style={on ? { background: "var(--glass-highlight)" } : undefined} aria-current={on}>
+            <span className={cn("flex h-7 items-center justify-center transition-all duration-300",
+              on ? "text-primary" : "text-muted-foreground")}> 
               <Icon className="size-[21px]" strokeWidth={on ? 2.2 : 1.8} />
             </span>
-            <span className={cn("text-[12px]", on ? "font-semibold text-ink" : "font-medium text-faint")}>{t}</span>
+            <span className={cn("text-[10.5px]", on ? "font-semibold text-primary" : "font-medium text-muted-foreground")}>{t}</span>
           </button>
         );
       })}
@@ -424,7 +424,7 @@ export function BottomNavigation({ tab, onChange }: { tab: Tab; onChange: (t: Ta
 /* ---------- Sheets & dialogs ---------- */
 export function Scrim({ onClose, children, align = "bottom" }: { onClose: () => void; children: ReactNode; align?: "bottom" | "center" }) {
   return (
-    <div className={cn("absolute inset-0 z-40 flex bg-ink/35 animate-in fade-in duration-200",
+    <div className={cn("glass-scrim absolute inset-0 z-40 flex animate-in fade-in duration-200",
       align === "bottom" ? "items-end" : "items-center justify-center p-6")} onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()} className={align === "bottom" ? "w-full" : "w-full"}>{children}</div>
     </div>
@@ -433,8 +433,8 @@ export function Scrim({ onClose, children, align = "bottom" }: { onClose: () => 
 export function Sheet({ children, onClose, title }: { children: ReactNode; onClose: () => void; title?: string }) {
   return (
     <Scrim onClose={onClose}>
-      <div className="max-h-[720px] overflow-y-auto no-scrollbar rounded-t-[30px] bg-surface px-5 pb-7 pt-3 shadow-sheet animate-in slide-in-from-bottom duration-300">
-        <div className="mx-auto mb-4 h-1 w-9 rounded-full bg-outline" />
+      <div className="glass glass-thick m-2 max-h-[720px] overflow-y-auto no-scrollbar rounded-[var(--r-sheet)] px-5 pb-6 pt-2.5 animate-in slide-in-from-bottom-8 fade-in duration-300">
+        <div className="mx-auto mb-4 h-[5px] w-9 rounded-full bg-outline" />
         {title && <h3 className="mb-4 text-[18px] font-semibold text-ink">{title}</h3>}
         {children}
       </div>
@@ -449,13 +449,13 @@ export function WarningDialog({ tone, icon, title, body, primary, secondary, onP
   const toneC = { warning: "bg-warning-container text-warning-ink", danger: "bg-error-container text-destructive", info: "bg-primary-container text-on-primary-container" }[tone];
   return (
     <Scrim onClose={onClose} align="center">
-      <div className="rounded-[28px] bg-surface p-6 shadow-sheet animate-in zoom-in-95 fade-in duration-200">
+      <div className="glass glass-thick rounded-[var(--r-sheet)] p-6 animate-in zoom-in-95 fade-in duration-200">
         <div className={cn("mb-4 flex size-12 items-center justify-center rounded-2xl", toneC)}>{icon ?? <AlertTriangle className="size-6" />}</div>
         <h3 className="text-[19px] font-semibold text-ink">{title}</h3>
         <div className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">{body}</div>
         <div className="mt-6 flex flex-col gap-2">
           <button onClick={onPrimary} className={cn("press h-12 rounded-[16px] text-[15px] font-semibold text-primary-foreground",
-            tone === "danger" ? "bg-destructive" : tone === "warning" ? "bg-ink" : "bg-primary")}>{primary}</button>
+            tone === "danger" ? "bg-destructive" : tone === "warning" ? "bg-warning" : "bg-primary")}>{primary}</button>
           <button onClick={onSecondary} className="press h-12 rounded-[16px] text-[15px] font-semibold text-on-primary-container">{secondary}</button>
         </div>
       </div>
@@ -468,19 +468,19 @@ export function MonthEndDialog({ m, workDays, ot, openSession, onExcel, onPdf, o
 }) {
   return (
     <Scrim onClose={onLater} align="center">
-      <div className="overflow-hidden rounded-[30px] bg-surface shadow-sheet animate-in zoom-in-95 fade-in duration-200">
-        <div className="bg-hero px-6 pb-5 pt-6 text-center">
+      <div className="glass glass-thick overflow-hidden rounded-[var(--r-sheet)] animate-in zoom-in-95 fade-in duration-200">
+        <div className="relative z-[2] px-6 pb-5 pt-6 text-center">
           <div className="mx-auto flex size-14 items-center justify-center rounded-[18px] bg-primary text-primary-foreground shadow-button">
             <Sparkles className="size-6" />
           </div>
           <h3 className="mt-4 text-[20px] font-semibold text-ink">Completed {monthLabel(m)}</h3>
-          <div className="mt-4 flex rounded-2xl border border-border bg-surface py-3">
+          <div className="mt-4 flex rounded-2xl bg-surface py-3">
             <Stat label="Workdays" value={ar(workDays)} />
             <div className="w-px bg-border" />
             <Stat label="Total overtime" value={durShort(ot)} accent />
           </div>
         </div>
-        <div className="px-6 pb-5 pt-4">
+        <div className="relative z-[2] px-6 pb-5 pt-4">
           {openSession && (
             <div className="mb-4 flex gap-2.5 rounded-2xl bg-warning-container p-3 text-[13px] leading-relaxed text-warning-ink">
               <AlertTriangle className="mt-0.5 size-4 shrink-0" />
@@ -507,9 +507,9 @@ export function UndoSnackbar({ text, onUndo, onClose }: { text: string; onUndo: 
     return () => clearTimeout(t);
   }, [text, onClose]);
   return (
-    <div className="absolute inset-x-4 bottom-[92px] z-30 flex h-12 items-center justify-between rounded-[14px] bg-inverse pe-2 ps-4 text-inverse-foreground shadow-sheet animate-in slide-in-from-bottom-4 fade-in duration-300">
-      <span className="flex items-center gap-2 text-[14px]"><CircleCheck className="size-4 text-success" />{text}</span>
-      <button onClick={onUndo} className="h-9 rounded-lg px-3 text-[14px] font-semibold text-primary-container">Undo</button>
+    <div className="glass glass-thick absolute inset-x-8 bottom-[92px] z-30 flex h-12 items-center justify-between rounded-full pe-1.5 ps-4 text-ink animate-in slide-in-from-bottom-3 fade-in zoom-in-95 duration-300">
+      <span className="relative z-[2] flex items-center gap-2 text-[14px]"><CircleCheck className="size-4 text-success" />{text}</span>
+      <button onClick={onUndo} className="relative z-[2] h-9 rounded-full px-4 text-[14px] font-semibold text-primary">Undo</button>
     </div>
   );
 }
@@ -517,13 +517,13 @@ export function UndoSnackbar({ text, onUndo, onClose }: { text: string; onUndo: 
 /* ---------- AppBar ---------- */
 export function AppBar({ title, onBack, action }: { title: string; onBack?: () => void; action?: ReactNode }) {
   return (
-    <div className="flex h-14 shrink-0 items-center gap-1 px-2">
+    <div className="flex h-16 shrink-0 items-center gap-3 px-4">
       {onBack && (
-        <button onClick={onBack} className="flex size-12 items-center justify-center rounded-full text-ink hover:bg-surface-variant" aria-label="Back">
-          <ArrowRight className="size-[22px]" />
+        <button onClick={onBack} className="glass glass-regular flex size-11 items-center justify-center rounded-full text-ink" aria-label="Back">
+          <ChevronLeft className="relative z-[2] size-[22px]" strokeWidth={2.2} />
         </button>
       )}
-      <h1 className={cn("flex-1 text-[19px] font-semibold text-ink", !onBack && "px-3")}>{title}</h1>
+      <h1 className={cn("flex-1 text-[20px] font-semibold tracking-[-0.02em] text-ink", !onBack && "px-1 text-[30px] font-bold")}>{title}</h1>
       {action}
     </div>
   );
@@ -594,7 +594,7 @@ export function TimePickerSheet({ title, value, onClose, onSave }: { title: stri
       )}
       <div className="mt-6 flex justify-end gap-2">
         <button onClick={onClose} className="h-11 rounded-full px-5 text-[15px] font-semibold text-on-primary-container">Cancel</button>
-        <button onClick={() => onSave(h24 * 60 + mi)} className="h-11 rounded-full bg-primary px-6 text-[15px] font-semibold text-primary-foreground">Done</button>
+        <button onClick={() => onSave(h24 * 60 + mi)} className="glass glass-prominent h-11 rounded-full px-6 text-[15px] font-semibold text-primary-foreground">Done</button>
       </div>
     </Sheet>
   );
