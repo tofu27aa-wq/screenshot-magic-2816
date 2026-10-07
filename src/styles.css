@@ -107,7 +107,7 @@
   --glass-tint: color-mix(in oklab, var(--primary) 6%, transparent);
   --glass-fill-clear: color-mix(in oklab, var(--glass-base) 22%, transparent);
   --glass-fill: color-mix(in oklab, var(--glass-base) 42%, transparent);
-  --glass-fill-strong: color-mix(in oklab, oklch(0.24 0.008 265) 78%, transparent);
+  --glass-fill-strong: color-mix(in oklab, oklch(0.22 0.008 265) 88%, transparent);
   --glass-fill-opaque: oklch(0.22 0.008 265);
   --glass-border: color-mix(in oklab, var(--glass-light) 9%, transparent);
   --glass-border-bright: color-mix(in oklab, var(--glass-light) 38%, transparent);
@@ -119,7 +119,7 @@
   --glass-blur: 24px;
   --glass-saturation: 180%;
   --glass-x: 50%;
-  --glass-y: 0%;
+  --glass-y: -30%;
   /* content layer */
   --content-fill: oklch(0.19 0.008 265);
   --content-fill-2: oklch(0.23 0.008 265);
@@ -163,7 +163,7 @@
 @utility glass {
   position: relative;
   isolation: isolate;
-  background: linear-gradient(180deg, var(--glass-highlight), transparent 55%), var(--glass-tint), var(--glass-fill);
+  background: linear-gradient(180deg, var(--glass-highlight), transparent 55%), linear-gradient(var(--glass-tint), var(--glass-tint)), var(--glass-fill);
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation)) brightness(1.06);
   box-shadow: var(--glass-inner-light), var(--glass-shadow);
   transition: transform 260ms var(--ease-spring), box-shadow 220ms var(--ease-standard), background-color 220ms var(--ease-standard);
@@ -186,7 +186,7 @@
 @utility glass-regular { --glass-blur: 24px; }
 @utility glass-thick { --glass-fill: var(--glass-fill-strong); --glass-blur: 36px; box-shadow: var(--glass-inner-light), var(--glass-shadow-deep); &:active { transform: none; } }
 @utility glass-prominent {
-  --glass-fill: color-mix(in oklab, var(--primary) 78%, transparent);
+  --glass-fill: color-mix(in oklab, var(--primary) 86%, transparent);
   --glass-tint: transparent;
   --glass-specular: color-mix(in oklab, var(--glass-light) 32%, transparent);
   box-shadow: var(--glass-inner-light), var(--shadow-button);
