@@ -10,8 +10,8 @@
  */
 
 @theme inline {
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, "Manrope", sans-serif;
-  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, "Sora", sans-serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-display: "Sora", system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -66,12 +66,12 @@
   --radius: 0.75rem;
   --stage: oklch(0.09 0.008 265);
   --device: oklch(0.07 0.008 265);
-  --background: oklch(0.12 0.006 265);
+  --background: oklch(0.13 0.012 265);
   --foreground: oklch(0.97 0.006 265);
   --ink: var(--foreground);
   --text-muted: oklch(0.58 0.018 265);
-  --surface: oklch(0.19 0.008 265);
-  --surface-variant: oklch(0.245 0.008 265);
+  --surface: oklch(0.18 0.014 265 / 0.88);
+  --surface-variant: oklch(0.23 0.016 265 / 0.8);
   --card: var(--surface); --card-foreground: var(--foreground);
   --popover: oklch(0.17 0.014 265); --popover-foreground: var(--foreground);
   --primary: oklch(0.79 0.16 166); --primary-foreground: oklch(0.12 0.03 166);
@@ -89,42 +89,15 @@
   --inverse: oklch(0.94 0.008 265); --inverse-foreground: oklch(0.13 0.012 265);
   --chart-1: var(--normal-work); --chart-2: var(--overtime); --chart-3: var(--success); --chart-4: var(--warning); --chart-5: var(--destructive);
   --sidebar: var(--surface); --sidebar-foreground: var(--foreground); --sidebar-primary: var(--primary); --sidebar-primary-foreground: var(--primary-foreground); --sidebar-accent: var(--accent); --sidebar-accent-foreground: var(--accent-foreground); --sidebar-border: var(--border); --sidebar-ring: var(--ring);
-  --gradient-hero: radial-gradient(120% 70% at 50% 0%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 70%), linear-gradient(180deg, oklch(0.2 0.008 265), oklch(0.165 0.007 265));
-  --gradient-hero-x2: radial-gradient(120% 70% at 50% 0%, color-mix(in oklab, var(--overtime) 18%, transparent), transparent 70%), linear-gradient(180deg, oklch(0.2 0.01 50), oklch(0.165 0.007 265));
-  --gradient-hero-warning: radial-gradient(120% 70% at 50% 0%, color-mix(in oklab, var(--warning) 16%, transparent), transparent 70%), linear-gradient(180deg, oklch(0.2 0.01 70), oklch(0.165 0.007 265));
-  --shadow-card: 0 1px 0 oklch(1 0 0 / .035) inset;
-  --shadow-hero: 0 1px 0 oklch(1 0 0 / .05) inset, 0 20px 50px -30px oklch(0 0 0 / .8);
-  --shadow-button: 0 10px 28px -14px color-mix(in oklab, var(--primary) 55%, transparent);
+  --gradient-hero: linear-gradient(155deg, oklch(0.21 0.022 265 / .94), oklch(0.14 0.014 265 / .98));
+  --gradient-hero-x2: linear-gradient(155deg, oklch(0.23 0.046 50 / .94), oklch(0.14 0.014 265 / .98));
+  --gradient-hero-warning: linear-gradient(155deg, oklch(0.23 0.045 70 / .94), oklch(0.14 0.014 265 / .98));
+  --shadow-card: 0 1px 0 oklch(1 0 0 / .06) inset, 0 18px 45px -32px oklch(0 0 0 / .9);
+  --shadow-hero: 0 1px 0 oklch(1 0 0 / .08) inset, 0 30px 70px -34px oklch(0 0 0 / .95);
+  --shadow-button: 0 14px 35px -18px color-mix(in oklab, var(--primary) 70%, transparent);
   --shadow-sheet: 0 -24px 70px -22px oklch(0 0 0 / .85);
   --shadow-device: 0 60px 140px -36px oklch(0 0 0 / .95), 0 0 0 1px oklch(1 0 0 / .05);
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
-  --ease-spring: cubic-bezier(0.32, 1.28, 0.5, 1);
-
-  /* ---- Liquid Glass material system (neutral, adaptive) ---- */
-  --glass-base: oklch(0.32 0.008 265);
-  --glass-light: oklch(1 0 0);
-  --glass-dark: oklch(0 0 0);
-  --glass-tint: color-mix(in oklab, var(--primary) 6%, transparent);
-  --glass-fill-clear: color-mix(in oklab, var(--glass-base) 22%, transparent);
-  --glass-fill: color-mix(in oklab, var(--glass-base) 42%, transparent);
-  --glass-fill-strong: color-mix(in oklab, oklch(0.22 0.008 265) 88%, transparent);
-  --glass-fill-opaque: oklch(0.22 0.008 265);
-  --glass-border: color-mix(in oklab, var(--glass-light) 9%, transparent);
-  --glass-border-bright: color-mix(in oklab, var(--glass-light) 38%, transparent);
-  --glass-highlight: color-mix(in oklab, var(--glass-light) 14%, transparent);
-  --glass-inner-light: inset 0 1px 0.5px color-mix(in oklab, var(--glass-light) 22%, transparent), inset 0 -1px 1px color-mix(in oklab, var(--glass-dark) 28%, transparent);
-  --glass-specular: color-mix(in oklab, var(--glass-light) 16%, transparent);
-  --glass-shadow: 0 8px 24px -8px color-mix(in oklab, var(--glass-dark) 55%, transparent), 0 1px 3px color-mix(in oklab, var(--glass-dark) 30%, transparent);
-  --glass-shadow-deep: 0 24px 60px -16px color-mix(in oklab, var(--glass-dark) 70%, transparent), 0 2px 8px color-mix(in oklab, var(--glass-dark) 30%, transparent);
-  --glass-blur: 24px;
-  --glass-saturation: 180%;
-  --glass-x: 50%;
-  --glass-y: -30%;
-  /* content layer */
-  --content-fill: oklch(0.19 0.008 265);
-  --content-fill-2: oklch(0.23 0.008 265);
-  /* radii (concentric) */
-  --r-sheet: 32px; --r-bar: 28px; --r-control: 22px; --r-row: 14px;
 }
 [data-theme="aurora"] { --primary: oklch(0.72 0.16 230); --primary-foreground: oklch(0.12 0.025 230); --primary-container: oklch(0.25 0.06 230 / .82); --on-primary-container: oklch(0.84 0.09 225); --normal-work-soft: oklch(0.67 0.1 220); }
 [data-theme="solar"] { --primary: oklch(0.84 0.14 88); --primary-foreground: oklch(0.15 0.025 75); --primary-container: oklch(0.27 0.06 82 / .82); --on-primary-container: oklch(0.89 0.1 88); --normal-work-soft: oklch(0.7 0.1 95); }
@@ -148,54 +121,10 @@
 }
 
 @utility font-display { font-family: var(--font-display); }
-/* Edge-to-edge atmospheric background (no grid) — accent only tints the light */
-@utility atmosphere {
-  background-color: var(--background);
-  background-image:
-    radial-gradient(60% 38% at 18% 6%, color-mix(in oklab, var(--primary) 16%, transparent), transparent 70%),
-    radial-gradient(55% 34% at 92% 30%, color-mix(in oklab, var(--overtime) 7%, transparent), transparent 70%),
-    radial-gradient(70% 40% at 40% 100%, color-mix(in oklab, var(--primary) 8%, transparent), transparent 70%);
+@utility ambient-grid {
+  background-image: linear-gradient(color-mix(in oklab, var(--foreground) 2.5%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in oklab, var(--foreground) 2.5%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
-@utility content-card { background: var(--content-fill); border-radius: var(--r-control); }
-@utility content-inset { background: var(--content-fill-2); }
-
-/* ---- Liquid Glass family ---- */
-@utility glass {
-  position: relative;
-  isolation: isolate;
-  background: linear-gradient(180deg, var(--glass-highlight), transparent 55%), linear-gradient(var(--glass-tint), var(--glass-tint)), var(--glass-fill);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation)) brightness(1.06);
-  box-shadow: var(--glass-inner-light), var(--glass-shadow);
-  transition: transform 260ms var(--ease-spring), box-shadow 220ms var(--ease-standard), background-color 220ms var(--ease-standard);
-  /* optical edge: bright top, faint sides, darker lower edge */
-  &::before {
-    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; z-index: 1;
-    background: linear-gradient(180deg, var(--glass-border-bright), var(--glass-border) 40%, var(--glass-border) 70%, color-mix(in oklab, var(--glass-light) 16%, transparent));
-    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  }
-  /* specular light that follows --glass-x/y */
-  &::after {
-    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 0;
-    background: radial-gradient(120px 60px at var(--glass-x) var(--glass-y), var(--glass-specular), transparent 70%);
-    opacity: .7; transition: opacity 220ms var(--ease-standard);
-  }
-  &:active { transform: scale(0.985); }
-  &:active::after { opacity: 1; }
-}
-@utility glass-clear { --glass-fill: var(--glass-fill-clear); --glass-blur: 14px; }
-@utility glass-regular { --glass-blur: 24px; }
-@utility glass-thick { --glass-fill: var(--glass-fill-strong); --glass-blur: 36px; box-shadow: var(--glass-inner-light), var(--glass-shadow-deep); &:active { transform: none; } }
-@utility glass-prominent {
-  --glass-fill: color-mix(in oklab, var(--primary) 86%, transparent);
-  --glass-tint: transparent;
-  --glass-specular: color-mix(in oklab, var(--glass-light) 32%, transparent);
-  box-shadow: var(--glass-inner-light), var(--shadow-button);
-}
-/* scroll edge so content stays legible behind floating bars */
-@utility scroll-edge-bottom {
-  background: linear-gradient(to top, var(--background) 10%, color-mix(in oklab, var(--background) 0%, transparent));
-}
-@utility glass-scrim { background: color-mix(in oklab, var(--glass-dark) 42%, transparent); }
 
 @keyframes pulse-dot {
   0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--success) 45%, transparent); }
@@ -203,19 +132,9 @@
 }
 @utility pulse-dot { animation: pulse-dot 2.2s ease-in-out infinite; }
 
-@media (prefers-reduced-transparency: reduce) {
-  :root { --glass-fill: var(--glass-fill-opaque); --glass-fill-clear: var(--glass-fill-opaque); --glass-fill-strong: var(--glass-fill-opaque); }
-}
-@supports not (backdrop-filter: blur(1px)) {
-  :root { --glass-fill: var(--glass-fill-opaque); --glass-fill-clear: var(--glass-fill-opaque); --glass-fill-strong: var(--glass-fill-opaque); }
-}
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
-}
-
 @layer base {
   * { border-color: var(--color-border); }
-  html { font-family: var(--font-sans); letter-spacing: -0.01em; }
+  html { font-family: var(--font-sans); letter-spacing: 0; }
   body {
     background-color: var(--color-stage);
     color: var(--color-foreground);

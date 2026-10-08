@@ -119,12 +119,10 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
   const dismissSnack = useCallback(() => setSnack(null), []);
 
   return (
-    <div data-theme={theme} className="atmosphere relative flex h-full flex-col overflow-hidden"
-      onPointerMove={(e) => { const el = (e.target as HTMLElement).closest(".glass") as HTMLElement | null; if (!el) return; const r = el.getBoundingClientRect(); el.style.setProperty("--glass-x", `${e.clientX - r.left}px`); el.style.setProperty("--glass-y", `${e.clientY - r.top}px`); }}>
+    <div data-theme={theme} className="relative flex h-full flex-col overflow-hidden bg-background">
       <div className="flex-1 overflow-y-auto no-scrollbar" key={screen}>
-        <div className={cn("min-h-full animate-in fade-in duration-300", showNav && "pb-[104px]")}>{content}</div>
+        <div className="min-h-full animate-in fade-in duration-300">{content}</div>
       </div>
-      {showNav && <div className="scroll-edge-bottom pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24" />}
       {showNav && <BottomNavigation tab={tab} onChange={(t) => go({ screen: t })} />}
       {snack && <UndoSnackbar text={snack.text} onUndo={() => { snack.undo(); setSnack(null); }} onClose={dismissSnack} />}
 
@@ -136,7 +134,7 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
             Checked in on <b className="font-semibold text-ink">{dayLabel(9, 14)}</b> at <b className="font-semibold text-ink">{clock(443)}</b>.
           </p>
           <div className="mt-6 space-y-2">
-            <button onClick={() => { go({ mode: "done" }); setSnack({ text: "Checked out", undo: () => {} }); }} className="press h-14 w-full rounded-[18px] glass text-[16px] font-semibold text-ink">Check out now</button>
+            <button onClick={() => { go({ mode: "done" }); setSnack({ text: "Checked out", undo: () => {} }); }} className="press h-14 w-full rounded-[18px] bg-ink text-[16px] font-semibold text-primary-foreground">Check out now</button>
             <button onClick={() => go({ screen: "day", month: 9, day: 14 })} className="press h-12 w-full rounded-[16px] text-[15px] font-semibold text-on-primary-container">Open day details</button>
           </div>
         </Sheet>
@@ -163,7 +161,7 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
             <p className="mt-1 text-[13.5px] text-muted-foreground">daftar_backup_2026-10-15.bak · 248 KB</p>
           </div>
           <div className="mt-6 grid grid-cols-2 gap-2">
-            <button onClick={() => setState({ overlay: { t: "share", file: "daftar_backup_2026-10-15.bak" } })} className="press h-12 rounded-[16px] glass glass-prominent text-[15px] font-semibold text-primary-foreground">Save or share</button>
+            <button onClick={() => setState({ overlay: { t: "share", file: "daftar_backup_2026-10-15.bak" } })} className="press h-12 rounded-[16px] bg-primary text-[15px] font-semibold text-primary-foreground">Save or share</button>
             <button onClick={closeOverlay} className="press h-12 rounded-[16px] bg-surface-variant text-[15px] font-semibold text-ink">Done</button>
           </div>
         </Sheet>
@@ -172,7 +170,7 @@ export function Prototype({ state, setState }: { state: ProtoState; setState: (s
         <Sheet onClose={closeOverlay} title="Choose a backup file">
           <div className="space-y-2">
             {[["daftar_backup_2026-10-12.bak", "October 12, 2026 · 8:05 PM"], ["daftar_backup_2026-09-30.bak", "September 30, 2026 · 6:40 PM"]].map(([f, d]) => (
-              <button key={f} onClick={() => setState({ overlay: { t: "restoreConfirm" } })} className="press flex w-full items-center gap-3 rounded-[18px] bg-surface p-3 text-start">
+              <button key={f} onClick={() => setState({ overlay: { t: "restoreConfirm" } })} className="press flex w-full items-center gap-3 rounded-[18px] border border-border bg-surface p-3 text-start">
                 <span className="flex size-11 items-center justify-center rounded-xl bg-primary-container text-on-primary-container"><DatabaseBackup className="size-5" /></span>
                 <span className="min-w-0 flex-1"><span dir="ltr" className="block truncate text-start text-[14px] font-semibold text-ink">{f}</span><span className="block text-[12px] text-muted-foreground">{d}</span></span>
                 <ChevronLeft className="size-4 text-faint" />
@@ -215,7 +213,7 @@ function SetupScreen({ onSave }: { onSave: (p: { name: string; group: string; id
   return (
     <div className="flex min-h-full flex-col px-6 pb-8 pt-14">
       <div className="mx-auto flex size-28 items-center justify-center rounded-full bg-primary-container/60">
-        <div className="flex size-20 items-center justify-center rounded-full bg-surface">
+        <div className="flex size-20 items-center justify-center rounded-full bg-surface shadow-card">
           <User className="size-9 text-primary" strokeWidth={1.6} />
         </div>
       </div>
@@ -227,7 +225,7 @@ function SetupScreen({ onSave }: { onSave: (p: { name: string; group: string; id
       </div>
       <div className="flex-1" />
       <button onClick={() => { setTried(true); if (ok) onSave({ name, group, id }); }}
-        className="press mt-10 h-[58px] w-full rounded-[20px] glass glass-prominent text-[17px] font-semibold text-primary-foreground shadow-button">Save details</button>
+        className="press mt-10 h-[58px] w-full rounded-[20px] bg-primary text-[17px] font-semibold text-primary-foreground shadow-button">Save details</button>
     </div>
   );
 }
@@ -239,21 +237,23 @@ function HomeScreen({ mode, minutes, name, sum, onAction, onFix, theme, onTheme 
   const dateM = 9, dateD = x2 ? 16 : warn ? 14 : 15;
   const ot = x2 ? minutes : Math.max(0, minutes - 540);
   return (
-    <div className="relative min-h-full px-5 pb-5">
+    <div className="ambient-grid relative min-h-full overflow-hidden px-5 pb-5">
+      <div className="pointer-events-none absolute -top-28 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
       <header className="relative flex items-center gap-3 pb-5 pt-4">
-        <div className="relative flex size-11 items-center justify-center rounded-full bg-surface-variant text-muted-foreground">
+        <div className="relative flex size-12 items-center justify-center rounded-2xl border border-primary/30 bg-primary-container text-on-primary-container shadow-card">
           <User className="size-5" />
           <span className="absolute -bottom-0.5 -end-0.5 size-3.5 rounded-full border-2 border-background bg-success" />
         </div>
         <div className="flex-1">
           <div className="text-[12px] font-medium text-faint">Good evening,</div>
-          <div className="mt-0.5 text-[22px] font-bold tracking-[-0.02em] text-ink">{name}</div>
+          <div className="mt-0.5 text-[19px] font-bold text-ink">{name}</div>
         </div>
-        <button onClick={onTheme} className="glass glass-regular flex size-11 items-center justify-center rounded-full text-ink" aria-label={`Change color theme. Current: ${theme}`} title="Change theme"><Palette className="relative z-[2] size-[19px]" /></button>
+        <button onClick={onTheme} className="press flex size-10 items-center justify-center rounded-full border border-border bg-surface/70 text-primary backdrop-blur-xl" aria-label={`Change color theme. Current: ${theme}`} title="Change theme"><Palette className="size-[18px]" /></button>
       </header>
 
-      <section className={cn("relative overflow-hidden rounded-[var(--r-sheet)] px-5 pb-5 pt-4 shadow-hero transition-colors duration-500",
+      <section className={cn("relative overflow-hidden rounded-[24px] border border-border px-5 pb-5 pt-4 backdrop-blur-2xl shadow-hero transition-colors duration-500",
         warn ? "bg-hero-warning" : x2 ? "bg-hero-x2" : "bg-hero")}>
+        <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-primary/70" />
         <div className="flex items-center justify-between">
           <span className="text-[13px] font-medium text-muted-foreground">{dayLabel(dateM, dateD)}</span>
           {x2 ? <DayTypeBadge type="x2" /> : warn ? (
@@ -323,7 +323,7 @@ function MonthScreen({ m, days, ranges, onBack, onDay, onExport }: { m: number; 
       <AppBar title={monthLabel(m)} onBack={onBack}
         action={<button onClick={onExport} className="flex size-12 items-center justify-center rounded-full text-ink" aria-label="Export"><Share2 className="size-5" /></button>} />
       <div className="px-5">
-        <div className="flex items-center gap-4 rounded-[22px] bg-surface px-4 py-3">
+        <div className="flex items-center gap-4 rounded-[22px] border border-border bg-surface px-4 py-3 shadow-card">
           <div className="flex-1"><div className="text-[12px] text-muted-foreground">Workdays</div><div className="tabular text-[22px] font-semibold text-ink">{ar(s.workDays)}</div></div>
           <div className="h-10 w-px bg-border" />
           <div className="flex-1"><div className="text-[12px] text-muted-foreground">Total overtime</div><div dir="ltr" className="tabular text-end text-[22px] font-semibold text-overtime-ink">{durShort(s.ot)}</div></div>
@@ -397,7 +397,7 @@ function DayScreen({ rec, ranges, overlay, setOverlay, onBack, onSave, onDelete 
           <div className="grid grid-cols-2 gap-1 rounded-[16px] bg-surface-variant p-1">
             {(["normal", "x2"] as const).map((t) => (
               <button key={t} onClick={() => setType(t)} className={cn("h-11 rounded-[12px] text-[14.5px] font-semibold transition-all",
-                type === t ? (t === "x2" ? "bg-overtime text-primary-foreground" : "bg-surface text-ink") : "text-muted-foreground")}>
+                type === t ? (t === "x2" ? "bg-overtime text-primary-foreground shadow-card" : "bg-surface text-ink shadow-card") : "text-muted-foreground")}>
                 {t === "normal" ? "Regular day" : "Double time"}
               </button>
             ))}
@@ -420,7 +420,7 @@ function DayScreen({ rec, ranges, overlay, setOverlay, onBack, onSave, onDelete 
         </Group>
 
         <button onClick={() => onSave({ inMin, outMin, override: type, note: note?.scope === "day" ? note.text : undefined }, note ?? undefined)}
-          className="press h-14 w-full rounded-[18px] glass glass-prominent text-[16px] font-semibold text-primary-foreground shadow-button">Save changes</button>
+          className="press h-14 w-full rounded-[18px] bg-primary text-[16px] font-semibold text-primary-foreground shadow-button">Save changes</button>
 
         {attended(rec) && (
           <div className="border-t border-border pt-5">
@@ -457,7 +457,7 @@ function DayScreen({ rec, ranges, overlay, setOverlay, onBack, onSave, onDelete 
 
 function Group({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="rounded-[22px] bg-surface p-4">
+    <section className="rounded-[22px] border border-border bg-surface p-4 shadow-card">
       <h2 className="mb-3 text-[13.5px] font-semibold text-muted-foreground">{title}</h2>
       {children}
     </section>
@@ -489,7 +489,7 @@ function NoteSheet({ initial, d, m, last, onClose, onSave, onRemove }: {
         <div className="flex-1" />
         <button onClick={onClose} className="h-12 rounded-[16px] px-4 text-[14.5px] font-semibold text-on-primary-container">Cancel</button>
         <button disabled={!text.trim()} onClick={() => onSave({ text, scope, from: scope === "range" ? from : d, to: scope === "range" ? to : scope === "month" ? last : d })}
-          className="h-12 rounded-[16px] glass glass-prominent px-6 text-[14.5px] font-semibold text-primary-foreground disabled:opacity-40">Save</button>
+          className="h-12 rounded-[16px] bg-primary px-6 text-[14.5px] font-semibold text-primary-foreground disabled:opacity-40">Save</button>
       </div>
     </Sheet>
   );
@@ -520,10 +520,10 @@ function MoreScreen({ profile, go }: { profile: { name: string; group: string; i
     <div className="pb-6">
       <AppBar title="More" />
       <div className="space-y-4 px-5">
-        <div className="overflow-hidden rounded-[24px] bg-surface">
+        <div className="overflow-hidden rounded-[24px] border border-border bg-surface shadow-card">
           <Row s="employee" t="Employee details" sub={`${profile.name} · Group ${ar(profile.group)}`} icon={<User className="size-5" />} tone="bg-primary-container text-on-primary-container" />
         </div>
-        <div className="divide-y divide-border overflow-hidden rounded-[24px] bg-surface">
+        <div className="divide-y divide-border overflow-hidden rounded-[24px] border border-border bg-surface shadow-card">
           <Row s="holidays" t="Public holidays" sub="Egypt holidays for 2026" icon={<Flag className="size-5" />} tone="bg-overtime-container text-overtime-ink" />
           <Row s="backup" t="Backup & restore" sub="Local copy on this device" icon={<DatabaseBackup className="size-5" />} tone="bg-success-container text-success" />
           <Row s="export" t="Export data" sub="Excel or PDF" icon={<Download className="size-5" />} tone="bg-surface-variant text-ink" />
@@ -548,7 +548,7 @@ function EmployeeScreen({ profile, onBack, onSave }: { profile: { name: string; 
         <div className="flex gap-2 rounded-2xl bg-primary-container/50 p-3 text-[12.5px] leading-relaxed text-on-primary-container"><Info className="mt-0.5 size-4 shrink-0" />Changes apply across previous and future monthly records.</div>
       </div>
       <div className="px-5 pt-8">
-        <button disabled={!ok} onClick={() => onSave(p)} className="press h-14 w-full rounded-[18px] glass glass-prominent text-[16px] font-semibold text-primary-foreground shadow-button disabled:opacity-40">Save details</button>
+        <button disabled={!ok} onClick={() => onSave(p)} className="press h-14 w-full rounded-[18px] bg-primary text-[16px] font-semibold text-primary-foreground shadow-button disabled:opacity-40">Save details</button>
       </div>
     </div>
   );
@@ -574,7 +574,7 @@ function HolidaysScreen({ list, onBack, onEdit }: { list: Holiday[]; onBack: () 
         ))}
       </div>
       <div className="sticky bottom-5 flex justify-start px-5 pt-4">
-        <button onClick={() => onEdit(undefined)} className="press flex h-14 items-center gap-2 rounded-[18px] glass glass-prominent px-5 text-[15px] font-semibold text-primary-foreground shadow-button"><Plus className="size-5" />Add holiday</button>
+        <button onClick={() => onEdit(undefined)} className="press flex h-14 items-center gap-2 rounded-[18px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground shadow-button"><Plus className="size-5" />Add holiday</button>
       </div>
     </div>
   );
@@ -619,7 +619,7 @@ function HolidaySheet({ h, onClose, onSave, onDelete }: { h?: Holiday; onClose: 
         <div className="flex-1" />
         <button onClick={onClose} className="h-12 rounded-[16px] px-4 text-[14.5px] font-semibold text-on-primary-container">Cancel</button>
         <button disabled={!name.trim()} onClick={() => onSave({ id: h?.id ?? `n${Date.now()}`, name, m, d, days })}
-          className="h-12 rounded-[16px] glass glass-prominent px-6 text-[14.5px] font-semibold text-primary-foreground disabled:opacity-40">Save</button>
+          className="h-12 rounded-[16px] bg-primary px-6 text-[14.5px] font-semibold text-primary-foreground disabled:opacity-40">Save</button>
       </div>
     </Sheet>
   );
@@ -636,12 +636,12 @@ function BackupScreen({ onBack, onCreate, onRestore }: { onBack: () => void; onC
           <span className="mt-4 block text-[18px] font-semibold">Create backup</span>
           <span className="mt-1 block text-[13px] opacity-80">Last backup: October 12, 2026 · 8:05 PM</span>
         </button>
-        <button onClick={onRestore} className="press flex w-full items-center gap-3.5 rounded-[24px] bg-surface p-5 text-start">
+        <button onClick={onRestore} className="press flex w-full items-center gap-3.5 rounded-[24px] border border-border bg-surface p-5 text-start shadow-card">
           <span className="flex size-12 items-center justify-center rounded-2xl bg-surface-variant text-ink"><ArchiveRestore className="size-6" /></span>
           <span className="flex-1"><span className="block text-[16px] font-semibold text-ink">Restore backup</span><span className="block text-[12.5px] text-muted-foreground">From a file saved on this device</span></span>
           <ChevronLeft className="size-5 text-faint" />
         </button>
-        <div className="rounded-[22px] bg-surface p-4">
+        <div className="rounded-[22px] border border-border bg-surface p-4">
           <div className="mb-3 text-[13.5px] font-semibold text-muted-foreground">Backup includes</div>
           <div className="flex flex-wrap gap-2">
             {items.map((i) => <span key={i} className="inline-flex h-8 items-center gap-1.5 rounded-full bg-surface-variant px-3 text-[12.5px] text-ink"><CircleCheck className="size-3.5 text-success" />{i}</span>)}
@@ -664,7 +664,7 @@ function ExportScreen({ onBack, onShare }: { onBack: () => void; onShare: (f: st
         <div className="-mx-5 flex gap-2 overflow-x-auto no-scrollbar px-5 pb-1">
           {[9, 8, 7, 6, 5].map((x) => (
             <button key={x} onClick={() => setM(x)} className={cn("h-10 shrink-0 rounded-full px-4 text-[13.5px] font-semibold",
-              m === x ? "bg-ink text-primary-foreground" : "bg-surface text-muted-foreground")}>{monthLabel(x)}</button>
+              m === x ? "bg-ink text-primary-foreground" : "border border-border bg-surface text-muted-foreground")}>{monthLabel(x)}</button>
           ))}
         </div>
         <div className="mb-2 mt-5 px-1 text-[13px] font-semibold text-muted-foreground">Format</div>
@@ -672,8 +672,8 @@ function ExportScreen({ onBack, onShare }: { onBack: () => void; onShare: (f: st
           <ExportAction icon={<FileSpreadsheet className="size-5" />} label="Excel" sub="Editable spreadsheet" selected={fmt === "xlsx"} onClick={() => setFmt("xlsx")} />
           <ExportAction icon={<FileText className="size-5" />} label="PDF" sub="Print-ready document" selected={fmt === "pdf"} onClick={() => setFmt("pdf")} />
         </div>
-        <div className="mt-5 rounded-[22px] bg-surface-variant/60 p-4">
-          <div className="mx-auto w-[220px] rounded-md bg-surface p-3">
+        <div className="mt-5 rounded-[22px] border border-border bg-surface-variant/60 p-4">
+          <div className="mx-auto w-[220px] rounded-md bg-surface p-3 shadow-card">
             <div className="text-center text-[9px] font-bold text-ink">Overtime report — {monthLabel(m)}</div>
             <div className="mt-1 flex justify-between text-[7px] text-muted-foreground"><span>Alex Morgan</span><span>Group 12 · ID 348</span></div>
             <div className="mt-2 space-y-[3px]">
@@ -688,7 +688,7 @@ function ExportScreen({ onBack, onShare }: { onBack: () => void; onShare: (f: st
           </div>
           <div className="mt-3 text-center text-[12px] text-muted-foreground">{fmt === "pdf" ? "Print preview" : "Same data as a spreadsheet"}</div>
         </div>
-        <button onClick={() => onShare(`Report_${MONTHS[m]}_2026.${fmt}`)} className="press mt-5 flex h-14 w-full items-center justify-center gap-2 rounded-[18px] glass glass-prominent text-[16px] font-semibold text-primary-foreground shadow-button">
+        <button onClick={() => onShare(`Report_${MONTHS[m]}_2026.${fmt}`)} className="press mt-5 flex h-14 w-full items-center justify-center gap-2 rounded-[18px] bg-primary text-[16px] font-semibold text-primary-foreground shadow-button">
           <Share2 className="size-5" />Create & share
         </button>
       </div>
